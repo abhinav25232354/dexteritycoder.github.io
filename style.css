@@ -375,7 +375,8 @@ p {
 }
 
 .home-page .hero {
-    margin-top: calc(-1 * var(--nav-height));
+    /* margin-top: calc(-1 * var(--nav-height)); */
+    margin-top: -25px;
     padding-top: var(--nav-height);
 }
 
