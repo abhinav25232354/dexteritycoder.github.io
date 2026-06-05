@@ -1,6 +1,6 @@
 :root {
     --background: #121212;
-    --secondbackground: #363636;
+    --secondbackground: #222222;
     --primary-text: #ffffff;
     --secondary-text: #b3b3b3;
     --accent: #4caf50;
@@ -96,15 +96,15 @@ button {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    height: 52px;
-    width: 52px;
+    height: 20px;
+    width: 20px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
+    border-radius: 20%;
     position: fixed;
     z-index: 11;
-    right: 18px;
-    top: 18px;
+    right: 30px;
+    top: 31px;
     backdrop-filter: blur(14px);
 }
 
@@ -245,10 +245,11 @@ footer {
     min-height: 360px;
     border-radius: var(--radius);
     transform: translateY(0);
+    transition: 0.25s;
 }
 
 .blog-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-10px);
 }
 
 .blog-card img {
@@ -324,7 +325,7 @@ p {
 
 .home-blog-grid {
     width: var(--page-width);
-    margin: 44px auto 0;
+    margin: 60px auto 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
