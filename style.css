@@ -112,8 +112,8 @@ body{
     text-align: center;
     padding: 80px;
     letter-spacing: 10px;
-    /* background: url('/Images/hero_background.jpg'); */
-    background: url('/Images/hero_background_dark.jpg');
+    /* background: url('/images/hero_background.jpg'); */
+    background: url('/images/hero_background_dark.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 300px;
