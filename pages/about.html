@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <title>About | Dexteritycoder</title>
 </head>
+
 <body>
-    <div class="ham" onclick="ham()">
+    <button class="ham" onclick="ham()" aria-label="Open menu" type="button">
         <div class="line"></div>
         <div class="line"></div>
         <div class="line"></div>
-    </div>
+    </button>
     <div class="navbar">
         <div id="leftnav">
             <h4>DEXTERITYCODER</h4>
@@ -45,35 +40,41 @@
             </ul>
         </div>
     </div>
-    <br>
+
+    <section class="hero">
+        <h1><b>STORIES</b> OF <b>CRAFT</b></h1>
+    </section>
+
     <div class="gallery-container">
         <div class="gallery-title">GALLERY</div>
-        <div class="gallery-slider">
-            <div class="gallery-item">
-                <img src="/images/hero_background.jpg" alt="Dexteritycoder image 1">
-            </div>
-            <div class="gallery-item">
-                <img src="/images/hero_background_dark.jpg" alt="Dexteritycoder image 2">
-            </div>
-            <div class="gallery-item">
-                <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 3">
-            </div>
-            <div class="gallery-item">
-                <img src="/featuredimages/2.jpg" alt="Dexteritycoder image 4">
-            </div>
-            <div class="gallery-item">
-                <img src="/featuredimages/3.jpg" alt="Dexteritycoder image 5">
-            </div>
-            <div class="gallery-item">
-                <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 6">
+        <div class="gallery-viewport">
+            <div class="gallery-slider">
+                <div class="gallery-item">
+                    <img src="/images/hero_background.jpg" alt="Dexteritycoder image 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/hero_background_dark.jpg" alt="Dexteritycoder image 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="/featuredimages/2.jpg" alt="Dexteritycoder image 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="/featuredimages/3.jpg" alt="Dexteritycoder image 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 6">
+                </div>
             </div>
         </div>
-        <button class="gallery-button left" onclick="slideLeft()">
+        <button class="gallery-button left" onclick="slideLeft()" type="button" aria-label="Previous gallery items">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M15 19l-7-7 7-7" />
             </svg>
         </button>
-        <button class="gallery-button right" onclick="slideRight()">
+        <button class="gallery-button right" onclick="slideRight()" type="button" aria-label="Next gallery items">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M9 5l7 7-7 7" />
             </svg>
@@ -92,10 +93,9 @@
             <div class="newsletter">
                 <h1>DEXTERITYCODER</h1>
                 <form action="#">
-                    <p style="text-align: left; color: white; font-weight: 100; font-size: 14px;">Enter your email here
-                        *</p>
+                    <p>Enter your email here *</p>
                     <input type="email" required>
-                    <div>
+                    <div class="newsletter-check">
                         <input type="checkbox" id="subscribe">
                         <label for="subscribe">Yes, subscribe me to your newsletter.</label>
                     </div>
@@ -110,4 +110,5 @@
     </section>
 </body>
 <script src="/script.js"></script>
+
 </html>
