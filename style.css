@@ -285,6 +285,7 @@ footer {
     font-size: var(--font-xs);
     color: var(--secondary-text);
     letter-spacing: 0.02em;
+    margin-top: 10px;
 }
 
 h3 {
@@ -653,6 +654,11 @@ form p {
     }
 }
 
+/* @media (max-width: 681px) {
+    .meta{
+        margin-top: 10vh !important;
+    }
+} */
 @media (max-width: 900px) {
     :root {
         --nav-height: 82px;
@@ -661,6 +667,9 @@ form p {
 
     .ham {
         display: inline-flex;
+    }
+    .meta{
+        margin-top: 7vh;
     }
 
     .navbar {
