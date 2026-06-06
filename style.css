@@ -249,6 +249,7 @@ footer {
     border-radius: var(--radius);
     transform: translateY(0);
     transition: 0.25s;
+    cursor: pointer;
 }
 
 .blog-card:hover {
