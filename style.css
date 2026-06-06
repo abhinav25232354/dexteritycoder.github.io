@@ -15,8 +15,9 @@
     --transition-slow: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     --transition-fast: 0.24s ease;
     --font-xs: clamp(0.72rem, 0.16vw + 0.7rem, 0.78rem);
-    --font-sm: clamp(0.8rem, 0.2vw + 0.76rem, 0.86rem);
-    --font-md: clamp(0.88rem, 0.24vw + 0.84rem, 0.95rem);
+    --font-sm: clamp(1rem, 0.6vw + 0.85rem, 0.95rem);
+    --font-sm-navbar: clamp(0.7rem, 0.2vw + 0.76rem, 0.86rem);
+    --font-md: clamp(0.90rem, 0.25vw + 0.88rem, 0.98rem);
     --font-lg: clamp(1rem, 0.45vw + 0.9rem, 1.18rem);
     --font-xl: clamp(1.28rem, 0.8vw + 1.08rem, 1.7rem);
     --font-hero: clamp(1.75rem, 2vw + 1.2rem, 3rem);
@@ -173,7 +174,7 @@ body.menu-open .line:nth-child(3) {
 #rightnav ul a {
     text-decoration: none;
     color: var(--primary-text);
-    font-size: var(--font-sm);
+    font-size: var(--font-sm-navbar);
     letter-spacing: 0.08em;
     position: relative;
 }
