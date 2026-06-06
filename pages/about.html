@@ -44,20 +44,22 @@
         </div>
     </div>
 
-    <section class="hero">
-        <h1><b>STORIES</b> OF <b>CRAFT</b></h1>
+    <section class="hero" style="margin-top: -25px; padding-top: var(--nav-height);">
+        <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem); padding-top: 44px;"><b>STORIES</b> OF <b>CRAFT</b></h1>
     </section>
+
+    <main class="post-article">
+        <article>
+            <section class="post-content" id="markdown-content">
+                <p>Loading...</p>
+            </section>
+        </article>
+    </main>
 
     <div class="gallery-container">
         <div class="gallery-title">GALLERY</div>
         <div class="gallery-viewport">
             <div class="gallery-slider">
-                <div class="gallery-item">
-                    <img src="/images/hero_background.jpg" alt="Dexteritycoder image 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/hero_background_dark.jpg" alt="Dexteritycoder image 2">
-                </div>
                 <div class="gallery-item">
                     <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 3">
                 </div>
@@ -68,7 +70,7 @@
                     <img src="/featuredimages/3.jpg" alt="Dexteritycoder image 5">
                 </div>
                 <div class="gallery-item">
-                    <img src="/featuredimages/1.jpg" alt="Dexteritycoder image 6">
+                    <img src="/featuredimages/4.jpg" alt="Dexteritycoder image 6">
                 </div>
             </div>
         </div>
@@ -112,6 +114,19 @@
         </footer>
     </section>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="/script.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch('/posts/about.md');
+      const markdown = await response.text();
+      document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
+    } catch (error) {
+      console.error('Error loading markdown:', error);
+      document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
+    }
+  });
+</script>
 
 </html>
