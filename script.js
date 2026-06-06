@@ -110,3 +110,25 @@ window.addEventListener("resize", updateGallery);
 window.addEventListener("load", updateGallery);
 
 handlePageTransitions();
+
+// Make entire blog card clickable without breaking inner links/buttons
+window.addEventListener('load', () => {
+  document.querySelectorAll('.blog-card').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      // Ignore clicks on interactive elements (links, buttons, form controls)
+      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) return;
+
+      const anchor = card.querySelector('a[href]');
+      if (anchor) {
+        anchor.click();
+      } else if (card.dataset.post) {
+        // Preserve the existing page transition behavior used for anchor clicks
+        closeMenu();
+        document.body.classList.add("page-leaving");
+        window.setTimeout(() => {
+          window.location.href = `/pages/${card.dataset.post}.html`;
+        }, 220);
+      }
+    });
+  });
+});
