@@ -26,8 +26,8 @@
   <main class="post-article">
     <article>
       <div class="meta">Admin · Mar 21, 2023 · 2 min read</div>
-      <section class="post-content">
-        <p>I am available for freelance projects. I specialize in building performant front-end experiences and shipping production web apps.</p>
+      <section class="post-content" id="markdown-content">
+        <p>Loading...</p>
       </section>
     </article>
   </main>
@@ -36,6 +36,19 @@
     <div class="copyright"><p>© 2035 Dexteritycoder</p></div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('/posts/post4.md');
+        const markdown = await response.text();
+        document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
+      } catch (error) {
+        console.error('Error loading markdown:', error);
+        document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
+      }
+    });
+  </script>
 </body>
 </html>
