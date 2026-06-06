@@ -397,6 +397,12 @@ p {
 .all_posts_btn center {
     display: block;
 }
+
+/* Ensure navbar links don't show underlines on post pages */
+.navbar a {
+    text-decoration: none;
+    color: inherit;
+}
 /* Read-more buttons removed; cards are clickable */
 
 /* Post page styles */
