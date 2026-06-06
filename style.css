@@ -213,7 +213,9 @@ footer {
     padding: 80px 0 0;
     letter-spacing: clamp(4px, 0.9vw, 10px);
     background: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)),
-        url("/images/hero_background_dark.jpg");
+        url("/images/background.jpg");
+    /* background: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)),
+        url("/images/hero_background_dark.jpg"); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
