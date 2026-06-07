@@ -126,9 +126,33 @@ window.addEventListener("load", updateGallery);
 
 handlePageTransitions();
 
+// Project files toggle functionality
+function initProjectFiles() {
+  document.querySelectorAll('.project-file-header').forEach(header => {
+    header.addEventListener('click', (e) => {
+      const item = header.closest('.project-file-item');
+      if (!item) return;
+      
+      const isOpen = item.classList.contains('open');
+      
+      // Close all project files
+      document.querySelectorAll('.project-file-item').forEach(file => {
+        file.classList.remove('open');
+      });
+      
+      // Open clicked item if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initProjectFiles);
+
 // Make entire blog card clickable without breaking inner links/buttons
 window.addEventListener('load', () => {
-  document.querySelectorAll('.blog-card').forEach((card) => {
+  document.querySelectorAll('.blog-card:not(.project-card)').forEach((card) => {
     card.addEventListener('click', (e) => {
       // Ignore clicks on interactive elements (links, buttons, form controls)
       if (e.target.closest('a') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) return;

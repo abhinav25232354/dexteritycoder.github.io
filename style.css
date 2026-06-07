@@ -21,16 +21,50 @@
     --font-lg: clamp(1rem, 0.45vw + 0.9rem, 1.18rem);
     --font-xl: clamp(1.28rem, 0.8vw + 1.08rem, 1.7rem);
     --font-hero: clamp(1.75rem, 2vw + 1.2rem, 3rem);
+    --scrollbar-size: 10px;
+    --scrollbar-track: #181818;
+    --scrollbar-thumb: #3a3a3a;
+    --scrollbar-thumb-hover: #4caf50;
+    --scrollbar-thumb-border: #222222;
+    --repo-folder-blue: #54aeff;
+    --repo-file-gray: #8b949e;
 }
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 html {
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border: 2px solid var(--scrollbar-thumb-border);
+    border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
 }
 
 body {
@@ -235,6 +269,12 @@ footer {
 
 .hero b {
     font-weight: 600 !important;
+}
+
+.hero-inner {
+    width: var(--page-width);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .blog-card {
@@ -762,6 +802,114 @@ form p {
     text-align: left;
 }
 
+/* Project Files Section */
+.project-files {
+    margin: 32px 0;
+    background: var(--secondbackground);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.project-file-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-file-item:last-child {
+    border-bottom: none;
+}
+
+.project-file-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+}
+
+.project-file-header:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.project-file-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    font-size: var(--font-sm);
+    color: var(--primary-text);
+}
+
+.project-file-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.project-file-toggle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text);
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.project-file-item.open .project-file-toggle {
+    transform: rotate(90deg);
+}
+
+.project-file-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-fast), padding var(--transition-fast);
+}
+
+.project-file-item.open .project-file-content {
+    max-height: 500px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-details {
+    display: grid;
+    gap: 12px;
+    font-size: var(--font-sm);
+}
+
+.project-detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.project-detail-label {
+    color: var(--secondary-text);
+    min-width: 100px;
+}
+
+.project-detail-value {
+    color: var(--primary-text);
+    word-break: break-word;
+    flex: 1;
+}
+
+.project-detail-link {
+    color: var(--highlight);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.project-detail-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 @media (max-width: 1200px) {
     :root {
         --page-width: min(1040px, calc(100vw - 40px));
@@ -900,6 +1048,14 @@ form p {
         padding-top: 26px;
     }
 
+    .project-detail-page .hero h1 {
+        max-height: 2.4em;
+    }
+
+    .project-detail-page .project-hero-meta {
+        font-size: var(--font-xs);
+    }
+
     .gallery-item {
         flex-basis: 100%;
     }
@@ -917,6 +1073,303 @@ form p {
     .social-icons {
         flex-wrap: wrap;
         justify-content: center;
+    }
+}
+
+/* Production project cards */
+.production-projects-section {
+    margin-top: 72px;
+    padding-top: 48px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.production-projects-heading {
+    margin: 0 0 12px;
+    font-size: clamp(1.35rem, 0.8vw + 1.1rem, 1.85rem);
+    font-weight: 400;
+}
+
+.production-projects-subtitle {
+    margin: 0 0 28px;
+    color: var(--secondary-text);
+    font-size: var(--font-sm);
+    line-height: 1.7;
+    max-width: 62ch;
+}
+
+.project-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.project-card {
+    cursor: default;
+    min-height: 470px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+    margin-top: 0;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+}
+
+.project-card .blog-card-media {
+    height: 220px;
+    min-height: 220px;
+}
+
+.project-card .blog-content {
+    padding: 24px;
+}
+
+.project-card .blog-content p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+}
+
+.project-card-actions {
+    margin-top: auto;
+    padding-top: 8px;
+}
+
+.project-details-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    background: black;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    font-size: var(--font-xs);
+    text-decoration: none;
+}
+
+.project-details-btn:hover,
+.project-details-btn:focus-visible {
+    background: rgb(214, 214, 214);
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+/* Project detail page — hero uses .home-page .hero rules; only add overflow safety */
+.project-detail-page .hero {
+    overflow: hidden;
+}
+
+.project-detail-page .hero h1 {
+    width: 100%;
+    max-width: 100%;
+    max-height: 3.4em;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.project-detail-page .project-hero-meta {
+    margin: 10px 0 0;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: var(--font-sm);
+    letter-spacing: 0.04em;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.project-detail-shell {
+    width: var(--page-width);
+    margin: 36px auto 60px;
+}
+
+.project-back-link {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: var(--secondary-text);
+    text-decoration: none;
+    font-size: var(--font-sm);
+}
+
+.project-back-link:hover,
+.project-back-link:focus-visible {
+    color: var(--primary-text);
+}
+
+.project-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.project-sidebar,
+.project-file-viewer {
+    background: var(--secondbackground);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    box-shadow: var(--surface-shadow);
+}
+
+.project-sidebar-section {
+    padding: 20px;
+}
+
+.project-sidebar-section + .project-sidebar-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-sidebar-section h2,
+.project-file-viewer-header h2 {
+    margin: 0 0 14px;
+    font-size: var(--font-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--secondary-text);
+    font-weight: 500;
+}
+
+.repo-tree {
+    max-height: calc(100vh - 280px);
+    min-height: 420px;
+    overflow: auto;
+}
+
+.repo-tree-folder {
+    margin: 0;
+}
+
+.repo-tree-folder-label {
+    list-style: none;
+    cursor: pointer;
+}
+
+.repo-tree-folder summary::-webkit-details-marker {
+    display: none;
+}
+
+.repo-tree-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--primary-text);
+    text-align: left;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: var(--font-xs);
+    font-family: "Courier New", monospace;
+}
+
+.repo-tree-file {
+    cursor: pointer;
+}
+
+.repo-tree-file:hover,
+.repo-tree-file.is-active {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.repo-tree-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+}
+
+.repo-tree-icon-svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.repo-tree-icon-folder {
+    color: var(--repo-folder-blue);
+}
+
+.repo-tree-icon-folder path {
+    fill: var(--repo-folder-blue);
+}
+
+.repo-tree-icon-file {
+    color: var(--repo-file-gray);
+}
+
+.repo-tree-icon-file path {
+    fill: var(--repo-file-gray);
+}
+
+.project-file-viewer-header {
+    padding: 20px 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-file-viewer-header h2 {
+    margin-bottom: 16px;
+    word-break: break-all;
+}
+
+.project-file-content {
+    padding: 20px;
+    min-height: 520px;
+    max-height: calc(100vh - 280px);
+    overflow: auto;
+}
+
+.repo-code-block {
+    margin: 0;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.repo-media-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.repo-media-preview img {
+    max-height: 520px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.repo-empty-state {
+    color: var(--secondary-text);
+    font-size: var(--font-sm);
+    line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+    .project-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .project-file-content {
+        max-height: none;
     }
 }
 

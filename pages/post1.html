@@ -27,21 +27,13 @@
     <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem); padding-top: 44px;">Production Projects</h1>
   </section>
 
-  <main class="post-article production-projects-page">
+  <main class="post-article">
     <article>
       <div class="meta">Admin · Mar 21, 2023 · 4 min read</div>
       <section class="post-content" id="markdown-content">
         <p>Loading...</p>
       </section>
     </article>
-
-    <section class="production-projects-section" aria-label="Featured production projects">
-      <h2 class="production-projects-heading">Featured Projects</h2>
-      <p class="production-projects-subtitle">
-        Each card opens the README and repository files in your browser — static frontend only, no backend server.
-      </p>
-      <div id="project-cards" class="project-cards-grid"></div>
-    </section>
   </main>
 
   <footer>
@@ -49,7 +41,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="/project-viewer.js"></script>
   <script src="/script.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -61,8 +52,6 @@
         console.error('Error loading markdown:', error);
         document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
       }
-
-      renderProjectCards(document.getElementById('project-cards'), PROJECTS);
     });
   </script>
 </body>

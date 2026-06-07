@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/x-icon" href="/images/logo.png">
+  <title>Project - Dexteritycoder</title>
+</head>
+<body class="home-page project-detail-page">
+  <div class="navbar">
+    <div id="leftnav"><a href="/index.html"><h4>DEXTERITYCODER</h4></a></div>
+    <div id="rightnav">
+      <ul id="rightnavul">
+        <a href="/index.html"><li>HOME</li></a>
+        <a href="/pages/blog.html"><li>WORKS</li></a>
+        <a href="/pages/contact.html"><li>CONTACT</li></a>
+        <a href="/pages/about.html"><li>ABOUT</li></a>
+      </ul>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 id="project-title">Loading project…</h1>
+      <p id="project-meta" class="project-hero-meta"></p>
+    </div>
+  </section>
+
+  <main class="project-detail-shell">
+    <a id="back-to-projects" class="project-back-link" href="/pages/production-projects.html">← Back to Production Projects</a>
+
+    <div class="project-detail-layout">
+      <aside class="project-sidebar">
+        <div class="project-sidebar-section">
+          <h2>Project Files</h2>
+          <div id="project-tree" class="repo-tree">
+            <p class="repo-empty-state">Loading repository tree…</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="project-file-viewer">
+        <div class="project-file-viewer-header">
+          <h2 id="file-title">README</h2>
+        </div>
+        <div id="file-content" class="project-file-content">
+          <p class="repo-empty-state">Loading…</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="copyright"><p>© 2035 Dexteritycoder</p></div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/project-viewer.js"></script>
+  <script src="/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const treeEl = document.getElementById("project-tree");
+      const fileContentEl = document.getElementById("file-content");
+      const titleEl = document.getElementById("project-title");
+
+      try {
+        await initProjectDetailPage();
+      } catch (error) {
+        console.error(error);
+        if (titleEl) titleEl.textContent = "Project unavailable";
+        if (treeEl) treeEl.innerHTML = "";
+        if (fileContentEl) fileContentEl.innerHTML = `<p class="repo-empty-state">${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

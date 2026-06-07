@@ -6,6 +6,146 @@ Every project listed here is something I actually finished, deployed, or shipped
 
 The word "production" is doing real work in the title. It means the code runs somewhere, serves someone, handles real input, and fails gracefully when it should. It means I thought about edge cases, about error states, about what happens when a user does something unexpected. It means I took the thing past the point where it just worked on my machine.
 
+## My Projects
+
+<div class="project-files">
+  <div class="project-file-item">
+    <div class="project-file-header">
+      <div class="project-file-title">
+        <span class="project-file-icon">📁</span>
+        <span>E-Learning Platform</span>
+      </div>
+      <div class="project-file-toggle">▶</div>
+    </div>
+    <div class="project-file-content">
+      <div class="project-details">
+        <div class="project-detail-row">
+          <div class="project-detail-label">Language:</div>
+          <div class="project-detail-value">Python, JavaScript</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Stack:</div>
+          <div class="project-detail-value">Flask, MySQL, React</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Status:</div>
+          <div class="project-detail-value">Production</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Repository:</div>
+          <div class="project-detail-value"><a href="#" class="project-detail-link">View on GitHub</a></div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Description:</div>
+          <div class="project-detail-value">Full-stack learning management system with user authentication, course management, progress tracking, and real-time notifications.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-file-item">
+    <div class="project-file-header">
+      <div class="project-file-title">
+        <span class="project-file-icon">📁</span>
+        <span>Real-time Analytics Dashboard</span>
+      </div>
+      <div class="project-file-toggle">▶</div>
+    </div>
+    <div class="project-file-content">
+      <div class="project-details">
+        <div class="project-detail-row">
+          <div class="project-detail-label">Language:</div>
+          <div class="project-detail-value">JavaScript, Python</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Stack:</div>
+          <div class="project-detail-value">Node.js, WebSocket, D3.js</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Status:</div>
+          <div class="project-detail-value">Production</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Repository:</div>
+          <div class="project-detail-value"><a href="#" class="project-detail-link">View on GitHub</a></div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Description:</div>
+          <div class="project-detail-value">Live streaming analytics dashboard with real-time data updates, custom visualizations, and export capabilities for business metrics.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-file-item">
+    <div class="project-file-header">
+      <div class="project-file-title">
+        <span class="project-file-icon">📁</span>
+        <span>Computer Vision Content Moderation</span>
+      </div>
+      <div class="project-file-toggle">▶</div>
+    </div>
+    <div class="project-file-content">
+      <div class="project-details">
+        <div class="project-detail-row">
+          <div class="project-detail-label">Language:</div>
+          <div class="project-detail-value">Python</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Stack:</div>
+          <div class="project-detail-value">OpenCV, MediaPipe, TensorFlow</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Status:</div>
+          <div class="project-detail-value">Production</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Repository:</div>
+          <div class="project-detail-value"><a href="#" class="project-detail-link">View on GitHub</a></div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Description:</div>
+          <div class="project-detail-value">Automated content moderation system using computer vision to detect and flag inappropriate content with high accuracy and low false positive rates.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-file-item">
+    <div class="project-file-header">
+      <div class="project-file-title">
+        <span class="project-file-icon">📁</span>
+        <span>Automation Workflow Engine</span>
+      </div>
+      <div class="project-file-toggle">▶</div>
+    </div>
+    <div class="project-file-content">
+      <div class="project-details">
+        <div class="project-detail-row">
+          <div class="project-detail-label">Language:</div>
+          <div class="project-detail-value">Python</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Stack:</div>
+          <div class="project-detail-value">Celery, Redis, Python asyncio</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Status:</div>
+          <div class="project-detail-value">Production</div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Repository:</div>
+          <div class="project-detail-value"><a href="#" class="project-detail-link">View on GitHub</a></div>
+        </div>
+        <div class="project-detail-row">
+          <div class="project-detail-label">Description:</div>
+          <div class="project-detail-value">Distributed task processing system for complex automation workflows, handling thousands of concurrent jobs with retry logic and failure handling.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 ## What You Will Find Here
 
 Each project comes with its full source code, documentation, and in most cases a live demo or deployment link. You can read the code, fork it, modify it, use it in your own work, or just study it to understand how a particular problem was approached. I believe in open access to working code. Tutorials teach patterns in isolation. Real codebases teach how those patterns behave when they interact with each other under actual constraints.
