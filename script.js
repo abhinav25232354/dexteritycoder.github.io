@@ -58,8 +58,23 @@ function closeMenu() {
 }
 
 function handlePageTransitions() {
+  // Ensure page shows on initial load
   requestAnimationFrame(() => {
+    window.scrollTo(0, 0);
+    document.body.classList.remove("page-leaving");
     document.body.classList.add("page-ready");
+  });
+
+  // Handle browser back/forward navigation
+  window.addEventListener("pageshow", (event) => {
+    window.scrollTo(0, 0);
+    document.body.classList.remove("page-leaving");
+    document.body.classList.add("page-ready");
+  });
+
+  // Handle page hide (before navigation)
+  window.addEventListener("pagehide", () => {
+    document.body.classList.remove("page-ready");
   });
 
   document.querySelectorAll('a[href]').forEach((link) => {
@@ -82,7 +97,7 @@ function handlePageTransitions() {
 
       window.setTimeout(() => {
         window.location.href = url.href;
-      }, 220);
+      }, 350);
     });
   });
 }
@@ -127,7 +142,7 @@ window.addEventListener('load', () => {
         document.body.classList.add("page-leaving");
         window.setTimeout(() => {
           window.location.href = `/pages/${card.dataset.post}.html`;
-        }, 220);
+        }, 350);
       }
     });
   });

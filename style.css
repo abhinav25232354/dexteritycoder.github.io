@@ -12,7 +12,7 @@
     --radius: 10px;
     --nav-height: 88px;
     --page-width: min(1120px, calc(100vw - 48px));
-    --transition-slow: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-slow: 0.35s ease-in-out;
     --transition-fast: 0.24s ease;
     --font-xs: clamp(0.72rem, 0.16vw + 0.7rem, 0.78rem);
     --font-sm: clamp(1rem, 0.6vw + 0.85rem, 0.95rem);
