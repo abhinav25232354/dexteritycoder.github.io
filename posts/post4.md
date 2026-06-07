@@ -1,65 +1,11 @@
 # Available for Freelancing
 
-I am available for freelance projects. I specialize in building high-performance web experiences and delivering production-ready applications.
+I take on a small number of freelance projects at a time, selectively, so that every engagement gets the attention it deserves.
 
-## Services
+I work on web development, full-stack builds, backend systems, automation pipelines, and technical problem-solving that requires someone who will actually understand your system rather than copy-paste a solution from the internet. I am also available for marketing infrastructure work: pixel setup, funnel architecture, ad campaign auditing, and the kind of systematic diagnostic work that requires both technical and strategic thinking. If your problem sits somewhere between engineering and operations and you cannot find someone fluent in both, that is usually where I am most useful.
 
-### Front-End Development
-- React, Vue, vanilla JavaScript
-- Responsive design, accessibility audits
-- Performance optimization (Core Web Vitals, bundle size)
-- Component libraries and design systems
+I care about doing work I can put my name on. That means I will ask questions before I start, tell you when I think an approach is wrong, and be honest about what is and is not possible within a given timeframe or budget. It also means I will not take a project I do not have the capacity to finish properly.
 
-### Full-Stack Development
-- Node.js, Next.js, Python backends
-- Database design and optimization
-- API design and GraphQL
-- Authentication and security best practices
+If you have something you want built or fixed, use the form below to tell me about it. Describe the problem as specifically as you can, what you have now, what you want, and what you have already tried if anything. I will respond within a few days with either a yes and a conversation about scope, or an honest explanation of why I am not the right fit.
 
-### DevOps & Deployment
-- CI/CD pipeline setup (GitHub Actions, GitLab CI)
-- Docker containerization
-- Cloud deployment (AWS, Vercel, Netlify)
-- Monitoring and logging infrastructure
-
-### Consulting
-- Architecture reviews
-- Performance audits
-- Accessibility compliance
-- Code quality and testing strategies
-
-## Tech Stack
-
-**Frontend:** React, Next.js, TypeScript, Tailwind CSS, Vue, Framer Motion
-
-**Backend:** Node.js, Express, Python, Django, PostgreSQL, MongoDB
-
-**DevOps:** Docker, Kubernetes, GitHub Actions, AWS, Vercel
-
-**Tools:** Git, Figma collaboration, REST/GraphQL APIs, Webpack, Vite
-
-## Process
-
-1. **Discovery** — Understand your goals, constraints, and timeline
-2. **Planning** — Propose architecture, tech stack, and milestones
-3. **Development** — Iterative sprints with regular updates
-4. **Testing** — Comprehensive testing, performance validation
-5. **Deployment** — Smooth launch with monitoring and support
-6. **Maintenance** — Post-launch support and optimization
-
-## Why Work With Me
-
-- **Ship fast** — I focus on delivering results, not just code
-- **Scalable architecture** — Built for growth and maintainability
-- **Best practices** — Testing, monitoring, documentation included
-- **Communication** — Regular updates, transparent timelines
-- **Long-term partnership** — Available for ongoing support
-
-## Let's Talk
-
-Interested in discussing your project? Let me know:
-- **Your project scope** — MVP, existing codebase, or full rebuild
-- **Timeline and budget** — Help me understand your constraints
-- **Key deliverables** — What success looks like for you
-
-Ready to start? [Get in touch](https://dexteritycoder.com/contact) today.
+*dexteritycoder*

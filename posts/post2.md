@@ -1,54 +1,33 @@
-# Artificial Intelligence & Machine Learning
+# Artificial Intelligence and Machine Learning
 
-Artificial Intelligence and Machine Learning are transforming industries. Here's a practical guide to getting started.
+I want to start with something honest: most of what is currently marketed as AI knowledge is surface-level familiarity dressed up as expertise.
 
-## Core Concepts
+Knowing how to write a prompt is not the same as understanding what a language model is doing when it generates a response. Knowing how to call an API is not the same as understanding the architecture that responds to it. Knowing which tools exist is not the same as knowing when to use them, when to avoid them, and why a particular tool produces the output it does. This distinction matters enormously, and it is the distinction I try to hold onto in everything I share here.
 
-### Machine Learning Basics
-Machine Learning is about building systems that learn from data rather than following explicit instructions.
+This section of the site exists at that boundary. It is not a collection of tutorials for people who want to appear knowledgeable. It is a collection of things I have actually worked through, understood well enough to explain, and found useful enough to share.
 
-- **Supervised Learning** — Learn from labeled examples (classification, regression)
-- **Unsupervised Learning** — Find patterns in unlabeled data (clustering)
-- **Reinforcement Learning** — Learn through trial and reward
+## What I Actually Know About This Field
 
-### Deep Learning
-Neural networks with multiple layers that excel at image, text, and speech tasks.
+I have built a real-time hand gesture recognition system using MediaPipe and OpenCV that detects hand landmarks at 21 points per frame, maps them to gesture classifications, and translates those gestures into system-level control actions using PyAutoGUI. This is not a weekend project. It required understanding how MediaPipe's landmark detection model works geometrically, how to normalise coordinate data across different hand sizes and camera distances, how to handle the inherent latency between gesture detection and system response, and how to make the whole pipeline run at a framerate that feels usable. Building it taught me more about how computer vision models represent spatial information than any course I could have taken.
 
-## Popular Tools & Frameworks
+I have built a local AI assistant using Ollama that runs entirely offline on my own hardware. The practical challenge of getting a 7-billion-parameter language model to run usably on consumer hardware, managing context window limitations, structuring prompts so the model produces reliably structured output, and integrating the model into a Python agent that can act on its responses, taught me things about inference architecture and quantisation that I could not have learned just by reading about them. I care deeply about local AI deployment because I believe that a tool you cannot run without a third party's permission is a tool you do not truly own.
 
-### Python Libraries
-- **scikit-learn** — Simple ML algorithms, great for getting started
-- **TensorFlow & Keras** — Deep learning at scale
-- **PyTorch** — Flexible research framework
-- **Pandas** — Data manipulation and analysis
+I have worked extensively with prompt engineering not as a soft creative skill but as a technical discipline. A prompt is a specification. Like any specification, it can be precise or vague, overconstrained or underconstrained, and the quality of the output is a direct function of the quality of the specification. I have spent real time understanding how context window structure affects model behaviour, how few-shot examples train in-context without gradient descent, how chain-of-thought prompting externalises reasoning in ways that reliably improve output quality on multi-step problems, and how system prompts interact with user prompts in ways that are not always intuitive.
 
-## Project Ideas for Beginners
+## What I Share Here
 
-### 1. Iris Classification
-Train a model to classify iris flowers by species. A classic first ML project.
+I share working models and model integrations with documentation detailed enough to let you actually use them. I share analysis of AI tools that goes past the surface, not "here are five tools you should know about" but genuine examination of what a tool does, what its limitations are, where it breaks down, and what problem it is actually solving versus what problem it claims to solve. I share techniques for making AI tools more useful in specific, concrete contexts, because generic advice about AI productivity is almost always useless, while specific, domain-grounded techniques can be genuinely transformative.
 
-### 2. House Price Prediction
-Use historical data to predict house prices. Learn regression techniques.
+I share my thinking on the epistemological questions that practitioners in this field tend to avoid because they are uncomfortable. What does it mean to understand something versus being able to produce output that resembles understanding? What is the actual cognitive cost of offloading thinking to a generative model, and under what conditions is that cost worth paying? When does AI assistance accelerate learning and when does it short-circuit it? I do not have final answers to these questions. I have worked through them carefully enough to have positions that I can defend and update.
 
-### 3. Movie Recommender System
-Build a recommendation engine. Apply collaborative filtering or content-based methods.
+## My Position on This Technology
 
-### 4. Sentiment Analysis
-Classify product reviews as positive or negative using NLP.
+I am not an AI enthusiast in the sense of unconditional excitement about every development in the field. I think the current moment requires more epistemic sobriety than the popular discourse typically offers. The capabilities of large language models are genuinely remarkable. The tendency to anthropomorphise them, to attribute understanding where there is pattern completion, to treat output fluency as a proxy for correctness, is a genuine problem that leads to genuine failures.
 
-## Next Steps
+I am also not a sceptic in the sense of dismissal. I have built systems with this technology. I know what it can do, and I know that what it can do is non-trivially useful. The question is always whether you understand what you are actually using, which requires being honest about what the technology is and is not.
 
-1. **Set up your environment** — Install Python, Jupyter, scikit-learn
-2. **Load a dataset** — Use Kaggle or UCI Machine Learning Repository
-3. **Explore the data** — Visualize distributions, spot outliers, check correlations
-4. **Train and evaluate** — Split into train/test, fit a model, measure accuracy
-5. **Iterate** — Experiment with different algorithms and hyperparameters
+What I try to bring to this section is the perspective of someone who has gotten their hands genuinely dirty with the actual systems, who has read enough of the underlying research to understand the architectural decisions that produce the behaviours we observe, and who cares enough about honest analysis to say when something is overhyped, when something is underappreciated, and when the correct answer is that we do not yet know.
 
-## Common Pitfalls
+That is the kind of thinking I want to share here, and the kind I hope to find from the people who read it.
 
-- **Overfitting** — Model memorizes training data, poor real-world performance
-- **Data leakage** — Test data influences training, metrics are misleading
-- **Imbalanced classes** — Minority class predictions are poor
-- **Ignoring domain knowledge** — Always validate results with subject matter experts
-
-Start small, measure everything, and iterate quickly.
+*dexteritycoder*
