@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <title>AI & Machine Learning — Dexteritycoder</title>
+  <link rel="icon" type="image/x-icon" href="/images/logo.png">
+  <title>AI & Machine Learning - Dexteritycoder</title>
  </head>
 <body class="post-page">
   <div class="navbar">
@@ -44,7 +45,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        const response = await fetch('/posts/post2.md');
+        const response = await fetch('/posts/ai-machine-learning.md');
         const markdown = await response.text();
         document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
       } catch (error) {

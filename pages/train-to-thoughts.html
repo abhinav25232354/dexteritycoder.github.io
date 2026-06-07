@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <title>Production Projects — Dexteritycoder</title>
+  <link rel="icon" type="image/x-icon" href="/images/logo.png">
+  <title>Train to Thoughts - Dexteritycoder</title>
  </head>
 <body class="post-page">
   <div class="navbar">
@@ -22,13 +23,13 @@
     </div>
   </div>
 
-  <section class="hero" style="margin-top: -25px; padding-top: var(--nav-height); background-image: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)), url('/featuredimages/1.jpg'); background-size: cover; background-position: center;">
-    <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem); padding-top: 44px;">Production Projects</h1>
+  <section class="hero" style="margin-top: -25px; padding-top: var(--nav-height); background-image: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)), url('/featuredimages/3.jpg'); background-size: cover; background-position: center;">
+    <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem); padding-top: 44px;">Train to Thoughts</h1>
   </section>
 
   <main class="post-article">
     <article>
-      <div class="meta">Admin · Mar 21, 2023 · 4 min read</div>
+      <div class="meta">Admin · Mar 21, 2023 · 3 min read</div>
       <section class="post-content" id="markdown-content">
         <p>Loading...</p>
       </section>
@@ -44,7 +45,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        const response = await fetch('/posts/post1.md');
+        const response = await fetch('/posts/train-to-thoughts.md');
         const markdown = await response.text();
         document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
       } catch (error) {
