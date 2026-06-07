@@ -368,7 +368,7 @@ function renderProjectCards(container, projects) {
       const detailHref = slug ? `/pages/project-detail.html?repo=${encodeURIComponent(slug)}` : "#";
 
       return `
-        <article class="blog-card project-card">
+        <article class="blog-card project-card" data-project="${slug}">
           <div class="blog-card-media">
             <img src="${project.image}" alt="${escapeHtml(project.title)}">
           </div>
@@ -376,14 +376,25 @@ function renderProjectCards(container, projects) {
             <div class="meta">${escapeHtml(project.meta || "Open Source")}</div>
             <h3>${escapeHtml(project.title)}</h3>
             <p>${escapeHtml(project.description)}</p>
-            <div class="project-card-actions">
-              <a class="project-details-btn" href="${detailHref}">See Details</a>
+            <div class="blog-footer">
+              <span class="views">View Details</span>
             </div>
           </div>
         </article>
       `;
     })
     .join("");
+
+  // Add click listeners to project cards
+  container.querySelectorAll('.blog-card').forEach((card, index) => {
+    const project = projects[index];
+    const parsed = parseGithubUrl(project.github);
+    const slug = parsed ? repoSlug(parsed.owner, parsed.repo) : "";
+    const detailHref = slug ? `/pages/project-detail.html?repo=${encodeURIComponent(slug)}` : "#";
+    card.addEventListener('click', () => {
+      window.location.href = detailHref;
+    });
+  });
 }
 
 async function initProjectDetailPage() {
