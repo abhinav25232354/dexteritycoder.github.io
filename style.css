@@ -1097,10 +1097,18 @@ form p {
     max-width: 62ch;
 }
 
-.project-cards-grid {
+/* .project-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
+} */
+.project-cards-grid {
+    width: var(--page-width);
+    margin: 60px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
 }
 
 .project-card {
