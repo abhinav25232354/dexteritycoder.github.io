@@ -244,8 +244,8 @@ footer {
     color: var(--primary-text);
     text-align: center;
     width: 100%;
-    margin: 0;
-    padding: 80px 0 0;
+    margin-top: -22px;
+    padding: 0;
     letter-spacing: clamp(4px, 0.9vw, 10px);
     background: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)),
         url("/images/background.jpg");
@@ -257,6 +257,10 @@ footer {
     height: 300px;
     min-height: 300px;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero h1 {
@@ -264,7 +268,7 @@ footer {
     font-size: var(--font-hero);
     font-weight: 300;
     line-height: 1.1;
-    padding-top: 80px;
+    padding: 0 20px;
 }
 
 .hero b {
@@ -427,13 +431,13 @@ p {
 
 .home-page .hero {
     /* margin-top: calc(-1 * var(--nav-height)); */
-    margin-top: -25px;
-    padding-top: var(--nav-height);
+    margin-top: -23px;
+    padding-top: 0;
 }
 
 .home-page .hero h1 {
     font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);
-    padding-top: 44px;
+    padding-top: 0;
 }
 
 .all_posts_btn center {
@@ -984,11 +988,12 @@ form p {
     .hero {
         height: 280px;
         min-height: 280px;
-        padding-top: 80px;
+        padding-top: 0;
+        margin-top: -18px;
     }
 
     .home-page .hero h1 {
-        padding-top: 36px;
+        padding-top: 0;
     }
 
     .blog-card {
@@ -1026,12 +1031,12 @@ form p {
     .hero {
         height: 220px;
         min-height: 220px;
-        padding: 80px 0 0;
+        padding: 0;
         letter-spacing: 0.08em;
     }
 
     .hero h1 {
-        padding-top: 56px;
+        padding-top: 0;
     }
 
     .home-page .blog-card {
@@ -1045,7 +1050,7 @@ form p {
 
     .home-page .hero h1 {
         font-size: clamp(1.25rem, 1vw + 0.95rem, 1.7rem);
-        padding-top: 26px;
+        padding-top: 0;
     }
 
     .project-detail-page .hero h1 {
@@ -1197,13 +1202,15 @@ form p {
 .project-detail-page .project-hero-meta {
     margin: 10px 0 0;
     width: 100%;
+    max-width: var(--page-width);
+    padding: 0 20px;
     color: rgba(255, 255, 255, 0.78);
     font-size: var(--font-sm);
     letter-spacing: 0.04em;
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .project-detail-shell {
@@ -1228,7 +1235,8 @@ form p {
     display: grid;
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
     gap: 24px;
-    align-items: start;
+    align-items: stretch;
+    min-height: calc(100vh - 0px);
 }
 
 .project-sidebar,
@@ -1237,14 +1245,52 @@ form p {
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius);
     box-shadow: var(--surface-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .project-sidebar-section {
     padding: 20px;
+    flex-shrink: 0;
 }
 
 .project-sidebar-section + .project-sidebar-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-sidebar-section:last-child {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.github-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: var(--secondbackground);
+    color: var(--primary-text);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: var(--font-sm);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.github-btn:hover,
+.github-btn:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: var(--surface-shadow);
 }
 
 .project-sidebar-section h2,
@@ -1258,9 +1304,24 @@ form p {
 }
 
 .repo-tree {
+    flex-grow: 1;
     max-height: calc(100vh - 280px);
     min-height: 420px;
     overflow: auto;
+}
+
+.project-file-viewer-header {
+    padding: 20px 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.project-file-content {
+    padding: 20px;
+    flex-grow: 1;
+    overflow: auto;
+    min-height: 420px;
+    max-height: calc(100vh - 0px);
 }
 
 .repo-tree-folder {
@@ -1332,21 +1393,9 @@ form p {
     fill: var(--repo-file-gray);
 }
 
-.project-file-viewer-header {
-    padding: 20px 20px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 .project-file-viewer-header h2 {
     margin-bottom: 16px;
     word-break: break-all;
-}
-
-.project-file-content {
-    padding: 20px;
-    min-height: 520px;
-    max-height: calc(100vh - 280px);
-    overflow: auto;
 }
 
 .repo-code-block {

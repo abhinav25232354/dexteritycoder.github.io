@@ -270,52 +270,53 @@ function repoFileIcon() {
 }
 
 function renderTreeNode(node, owner, repo, branch, depth = 0) {
-  if (!node.children || node.children.size === 0) {
-    return "";
-  }
-
-  const children = Array.from(node.children.values()).sort((a, b) => {
-    if (a.type !== b.type) {
-      return a.type === "dir" ? -1 : 1;
+    if (!node.children || node.children.size === 0) {
+        return "";
     }
-    return a.name.localeCompare(b.name);
-  });
 
-  return children
-    .map((child) => {
-      const isDir = child.type === "dir";
-      const icon = isDir ? repoFolderIcon() : repoFileIcon();
-      const indent = depth * 14;
+    const children = Array.from(node.children.values()).sort((a, b) => {
+        if (a.type !== b.type) {
+            return a.type === "dir" ? -1 : 1;
+        }
+        // Reverse name order
+        return b.name.localeCompare(a.name);
+    });
 
-      if (isDir) {
-        return `
-          <details class="repo-tree-folder" open>
-            <summary class="repo-tree-item repo-tree-folder-label" style="padding-left:${indent}px">
-              <span class="repo-tree-icon">${icon}</span>
-              <span>${escapeHtml(child.name)}</span>
-            </summary>
-            ${renderTreeNode(child, owner, repo, branch, depth + 1)}
-          </details>
-        `;
-      }
+    return children
+        .map((child) => {
+            const isDir = child.type === "dir";
+            const icon = isDir ? repoFolderIcon() : repoFileIcon();
+            const indent = depth * 14;
 
-      return `
-        <button
-          type="button"
-          class="repo-tree-item repo-tree-file"
-          style="padding-left:${indent + 14}px"
-          data-path="${escapeHtml(child.path)}"
-          data-size="${child.size || 0}"
-          data-owner="${owner}"
-          data-repo="${repo}"
-          data-branch="${branch}"
-        >
-          <span class="repo-tree-icon">${icon}</span>
-          <span>${escapeHtml(child.name)}</span>
-        </button>
-      `;
-    })
-    .join("");
+            if (isDir) {
+                return `
+                    <details class="repo-tree-folder" open>
+                        <summary class="repo-tree-item repo-tree-folder-label" style="padding-left:${indent}px">
+                            <span class="repo-tree-icon">${icon}</span>
+                            <span>${escapeHtml(child.name)}</span>
+                        </summary>
+                        ${renderTreeNode(child, owner, repo, branch, depth + 1)}
+                    </details>
+                `;
+            }
+
+            return `
+                <button
+                    type="button"
+                    class="repo-tree-item repo-tree-file"
+                    style="padding-left:${indent + 14}px"
+                    data-path="${escapeHtml(child.path)}"
+                    data-size="${child.size || 0}"
+                    data-owner="${owner}"
+                    data-repo="${repo}"
+                    data-branch="${branch}"
+                >
+                    <span class="repo-tree-icon">${icon}</span>
+                    <span>${escapeHtml(child.name)}</span>
+                </button>
+            `;
+        })
+        .join("");
 }
 
 function escapeHtml(value) {
@@ -416,14 +417,51 @@ async function initProjectDetailPage() {
   const fileTitleEl = document.getElementById("file-title");
   const fileContentEl = document.getElementById("file-content");
   const backLink = document.getElementById("back-to-projects");
+  
+  // Find project in PROJECTS array to get GitHub URL and custom meta
+  const project = findProjectBySlug(owner, repo);
+  const githubUrl = project?.github || `https://github.com/${owner}/${repo}`;
 
   const { branch, readmeMarkdown, readmePath, tree } = await loadRepoProject(owner, repo);
   const heroTitle = getProjectHeroTitle(owner, repo);
 
   document.title = `${heroTitle} - Dexteritycoder`;
   if (titleEl) titleEl.innerHTML = `<b>${escapeHtml(heroTitle)}</b>`;
-  if (metaEl) metaEl.textContent = `${owner}/${repo} · ${branch}`;
+  if (metaEl) metaEl.textContent = project?.meta || `${owner}/${repo} · ${branch}`;
   if (backLink) backLink.href = "/pages/production-projects.html";
+  
+  // Add GitHub and Clone buttons in sidebar
+  const sidebar = document.querySelector(".project-sidebar");
+  if (sidebar) {
+    const buttonSection = document.createElement("div");
+    buttonSection.className = "project-sidebar-section";
+    buttonSection.innerHTML = `
+      <h2>Project Actions</h2>
+      <div class="project-actions">
+        <button class="github-btn" onclick="window.open('${githubUrl}', '_blank', 'noopener noreferrer')">GitHub Repo</button>
+        <button class="github-btn clone-btn" data-url="https://github.com/${owner}/${repo}.git">Clone</button>
+      </div>
+    `;
+    sidebar.insertBefore(buttonSection, sidebar.firstChild);
+    
+    // Add clone button functionality
+    const cloneBtn = buttonSection.querySelector(".clone-btn");
+    if (cloneBtn) {
+      cloneBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const cloneUrl = cloneBtn.dataset.url;
+        try {
+          await navigator.clipboard.writeText(cloneUrl);
+          const originalText = cloneBtn.textContent;
+          cloneBtn.textContent = "Copied!";
+          setTimeout(() => cloneBtn.textContent = originalText, 2000);
+        } catch (error) {
+          console.error("Failed to copy clone URL:", error);
+        }
+      });
+    }
+  }
+  
   if (treeEl) treeEl.innerHTML = renderTreeNode(tree, owner, repo, branch);
   if (fileTitleEl) fileTitleEl.textContent = readmePath || "README";
   if (fileContentEl) {
