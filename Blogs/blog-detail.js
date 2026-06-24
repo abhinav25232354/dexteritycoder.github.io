@@ -1,4 +1,4 @@
-﻿async function initBlogDetailPage() {
+async function initBlogDetailPage() {
   const params = new URLSearchParams(window.location.search);
   const blogId = params.get('blog');
 
@@ -32,10 +32,8 @@
     // Now load the actual markdown file!
     const mdResponse = await fetch(`/BlogPosts/${blogId}.md`);
     const mdContent = await mdResponse.text();
-    // Remove frontmatter if present!
-    const contentWithoutFrontmatter = mdContent.replace(/---[\s\S]*?---/, '').trim();
     // Render markdown!
-    document.getElementById('markdown-content').innerHTML = marked.parse(contentWithoutFrontmatter);
+    document.getElementById('markdown-content').innerHTML = marked.parse(mdContent);
 
   } catch (error) {
     console.error('Error loading blog:', error);

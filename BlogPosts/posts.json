@@ -16,5 +16,14 @@
     "author": "Admin",
     "date": "Jun 25, 2026",
     "readTime": "5 min read"
+  },
+  {
+    "id": "What-is-machine-learning",
+    "title": "What is Machine Learning?",
+    "description": "An introduction to the fundamentals of machine learning.",
+    "image": "/featuredimages/3.jpg",
+    "author": "Admin",
+    "date": "Jun 26, 2026",
+    "readTime": "5 min read"
   }
 ]

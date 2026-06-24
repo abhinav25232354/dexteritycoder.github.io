@@ -53,6 +53,9 @@ async function initBlogList() {
     const response = await fetch('/BlogPosts/posts.json');
     allPosts = await response.json();
     
+    // Reverse so newest are on top
+    allPosts = allPosts.reverse();
+    
     renderPosts(allPosts);
     
     // Add search listener
