@@ -1288,8 +1288,15 @@ form p {
     box-shadow: var(--surface-shadow);
 }
 
-.form-group {
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
     margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 0;
 }
 
 .form-group label {
@@ -1311,6 +1318,10 @@ form p {
     color: var(--primary-text);
     transition: all var(--transition-fast);
     box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
 }
 
 .form-group input::placeholder,
@@ -1346,6 +1357,13 @@ form p {
 
 .submit-btn:active {
     transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
 }
 
 .project-detail-layout {
