@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,10 +11,10 @@
         rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/logo.png">
     <link rel="stylesheet" href="/style.css">
-    <title>Contact | Dexteritycoder</title>
+    <title>Blogs | Dexteritycoder</title>
 </head>
 
-<body>
+<body class="home-page">
     <button class="ham" onclick="ham()" aria-label="Open menu" type="button">
         <div class="line"></div>
         <div class="line"></div>
@@ -31,16 +31,16 @@
                 <a href="/index.html">
                     <li>HOME</li>
                 </a>
-                <a href="blog.html">
+                <a href="/pages/blog.html">
                     <li>WORKS</li>
                 </a>
                 <a href="/Blogs/blog-list.html">
                     <li>BLOGS</li>
                 </a>
-                <a href="contact.html">
+                <a href="/pages/contact.html">
                     <li>CONTACT</li>
                 </a>
-                <a href="about.html">
+                <a href="/pages/about.html">
                     <li>ABOUT</li>
                 </a>
             </ul>
@@ -48,7 +48,10 @@
     </div>
 
     <section class="hero">
-        <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);"><b>LET'S</b> BUILD <b>TOGETHER</b></h1>
+        <h1>TIME OUTSIDE SCREENS</h1>
+    </section>
+
+    <section class="home-blog-grid" id="blog-grid">
     </section>
 
     <section class="whole_footer">
@@ -80,5 +83,6 @@
     </section>
 </body>
 <script src="/script.js"></script>
+<script src="blog-list.js"></script>
 
 </html>

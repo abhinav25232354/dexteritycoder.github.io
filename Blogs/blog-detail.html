@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,11 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <link rel="icon" type="image/x-icon" href="/images/logo.png">
-  <title>AI & Machine Learning - Dexteritycoder</title>
+  <title>Blog | Dexteritycoder</title>
  </head>
 <body class="post-page">
+  <button class="ham" onclick="ham()" aria-label="Open menu" type="button">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </button>
   <div class="navbar">
-    <div id="leftnav"><a href="/index.html"><h4>DEXTERITYCODER</h4></a></div>
+    <div id="leftnav"><a href="/index.html" style="text-decoration: none; color: inherit;"><h4>DEXTERITYCODER</h4></a></div>
     <div id="rightnav">
       <ul id="rightnavul">
         <a href="/index.html"><li>HOME</li></a>
@@ -24,13 +29,13 @@
     </div>
   </div>
 
-  <section class="hero" style="background-image: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)), url('/featuredimages/2.jpg'); background-size: cover; background-position: center;">
-    <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);">Artificial Intelligence & Machine Learning</h1>
+  <section class="hero" id="blog-hero">
+    <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);">Loading...</h1>
   </section>
 
   <main class="post-article">
     <article>
-      <div class="meta">Admin · Mar 21, 2023 · 6 min read</div>
+      <div class="meta" id="blog-meta">Loading...</div>
       <section class="post-content" id="markdown-content">
         <p>Loading...</p>
       </section>
@@ -43,17 +48,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="/script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const response = await fetch('/posts/ai-machine-learning.md');
-        const markdown = await response.text();
-        document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
-      } catch (error) {
-        console.error('Error loading markdown:', error);
-        document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
-      }
-    });
-  </script>
+  <script src="blog-detail.js"></script>
 </body>
 </html>

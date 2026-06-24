@@ -1,0 +1,20 @@
+﻿[
+  {
+    "id": "first-blog",
+    "title": "My First Blog Post",
+    "description": "This is my first ever blog post about coding!",
+    "image": "/featuredimages/1.jpg",
+    "author": "Admin",
+    "date": "Jun 24, 2026",
+    "readTime": "3 min read"
+  },
+  {
+    "id": "second-blog",
+    "title": "Learning JavaScript",
+    "description": "Sharing my journey of learning JavaScript and web development!",
+    "image": "/featuredimages/2.jpg",
+    "author": "Admin",
+    "date": "Jun 25, 2026",
+    "readTime": "5 min read"
+  }
+]
