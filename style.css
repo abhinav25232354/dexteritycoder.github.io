@@ -1231,12 +1231,51 @@ form p {
     color: var(--primary-text);
 }
 
+.blog-search-container {
+    width: var(--page-width);
+    margin: 24px auto;
+    position: relative;
+}
+
+#blog-search {
+    width: 100%;
+    padding: 16px 56px 16px 20px;
+    font-size: var(--font-md);
+    font-family: inherit;
+    background-color: var(--secondbackground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--primary-text);
+    transition: all var(--transition-fast);
+}
+
+#blog-search::placeholder {
+    color: var(--secondary-text);
+}
+
+#blog-search:focus {
+    outline: none;
+    border-color: #116dff;
+    box-shadow: 0 0 0 3px rgba(17, 109, 255, 0.2);
+}
+
+.blog-search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    color: var(--secondary-text);
+    pointer-events: none;
+}
+
 .project-detail-layout {
     display: grid;
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
     gap: 24px;
     align-items: stretch;
-    min-height: calc(100vh - 0px);
+    min-height: calc(100vh - 280px);
 }
 
 .project-sidebar,
