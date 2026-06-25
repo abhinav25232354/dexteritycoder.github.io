@@ -1366,6 +1366,47 @@ form p {
     }
 }
 
+.donate-container {
+    width: var(--page-width);
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.donate-text {
+    background: var(--secondbackground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--surface-shadow);
+}
+
+.donate-text h2 {
+    color: var(--primary-text);
+    margin-bottom: 16px;
+}
+
+.donate-text p {
+    color: var(--secondary-text);
+    font-size: var(--font-md);
+}
+
+.donate-iframe-container {
+    background: var(--secondbackground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px;
+    box-shadow: var(--surface-shadow);
+}
+
+#donate-iframe {
+    width: 100%;
+    height: 600px;
+    border-radius: var(--radius);
+    background: white;
+}
+
 .project-detail-layout {
     display: grid;
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
