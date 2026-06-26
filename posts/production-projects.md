@@ -7,6 +7,7 @@ Every project listed here is something I actually finished, deployed, or shipped
 The word "production" is doing real work in the title. It means the code runs somewhere, serves someone, handles real input, and fails gracefully when it should. It means I thought about edge cases, about error states, about what happens when a user does something unexpected. It means I took the thing past the point where it just worked on my machine.
 
 ![Production](https://images.unsplash.com/photo-1587691592099-24045742c181?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dXJsfGVufDB8fDB8fHww)
+*Credit: [License & Platform - Unsplash](https://unsplash.com/)*
 
 ## What You Will Find Here
 
