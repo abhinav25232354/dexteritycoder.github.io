@@ -27,7 +27,9 @@ async function initBlogDetailPage() {
     hero.querySelector('h1').textContent = post.title;
 
     // Set meta!
-    document.getElementById('blog-meta').textContent = `${post.author} · ${post.date} · ${post.readTime}`;
+    document.getElementById('blog-meta').innerHTML = `
+      <div class="meta-top">${post.author} · ${post.date} · ${post.readTime}</div>
+    `;
 
     // Now load the actual markdown file!
     const mdResponse = await fetch(`/BlogPosts/${blogId}.md`);

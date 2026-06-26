@@ -14,9 +14,9 @@ function renderPosts(postsToRender) {
                 <h3>${post.title}</h3>
                 <p>${post.description}</p>
                 <div class="blog-footer">
-                    <span class="views">0 views</span>
-                    <span class="comments">0 comments</span>
-                    <span class="like">❤ 0</span>
+                    <span class="views">${post.views} views</span>
+                    <span class="comments">${post.comments} comments</span>
+                    <span class="like">❤ ${post.likes}</span>
                 </div>
             </div>
         </div>
