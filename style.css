@@ -1407,6 +1407,16 @@ form p {
     background: white;
 }
 
+.post-content img,
+.file-viewer .content img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
+    margin: 16px 0;
+    border-radius: var(--radius);
+}
+
 .project-detail-layout {
     display: grid;
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);

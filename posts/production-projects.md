@@ -6,6 +6,8 @@ Every project listed here is something I actually finished, deployed, or shipped
 
 The word "production" is doing real work in the title. It means the code runs somewhere, serves someone, handles real input, and fails gracefully when it should. It means I thought about edge cases, about error states, about what happens when a user does something unexpected. It means I took the thing past the point where it just worked on my machine.
 
+![Production](https://images.unsplash.com/photo-1587691592099-24045742c181?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dXJsfGVufDB8fDB8fHww)
+
 ## What You Will Find Here
 
 Each project comes with its full source code, documentation, and in most cases a live demo or deployment link. You can read the code, fork it, modify it, use it in your own work, or just study it to understand how a particular problem was approached. I believe in open access to working code. Tutorials teach patterns in isolation. Real codebases teach how those patterns behave when they interact with each other under actual constraints.
