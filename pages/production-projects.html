@@ -1,72 +1,109 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="icon" type="image/x-icon" href="/images/logo.png">
-  <title>Production Projects - Dexteritycoder</title>
- </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..90,0..100,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/style.css">
+    <title>Production Projects | Dexteritycoder</title>
+</head>
+
 <body class="post-page">
-  <div class="navbar">
-    <div id="leftnav"><a href="/index.html"><h4>DEXTERITYCODER</h4></a></div>
-    <div id="rightnav">
-      <ul id="rightnavul">
-        <a href="/index.html"><li>HOME</li></a>
-        <a href="/pages/blog.html"><li>WORKS</li></a>
-        <a href="/Blogs/blog-list.html"><li>BLOGS</li></a> <a href="donate.html"><li>DONATE</li></a> <a href="/pages/contact.html"><li>CONTACT</li></a>
-        <a href="/pages/about.html"><li>ABOUT</li></a>
-      </ul>
+    <button class="ham" onclick="ham()" aria-label="Open menu" type="button">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </button>
+    <div class="navbar">
+        <div id="leftnav">
+            <a href="/index.html" style="text-decoration: none; color: inherit;">
+                <h4>DEXTERITYCODER</h4>
+            </a>
+        </div>
+        <div id="rightnav">
+            <ul id="rightnavul">
+                <a href="/index.html">
+                    <li>HOME</li>
+                </a>
+                <a href="blog.html">
+                    <li>WORKS</li>
+                </a>
+                <a href="/Blogs/blog-list.html">
+                    <li>BLOGS</li>
+                </a>
+                <a href="donate.html">
+                    <li>DONATE</li>
+                </a>
+                <a href="contact.html">
+                    <li>CONTACT</li>
+                </a>
+                <a href="about.html">
+                    <li>ABOUT</li>
+                </a>
+            </ul>
+        </div>
     </div>
-  </div>
 
-  <section class="hero" style="background-image: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)), url('/featuredimages/1.jpg'); background-size: cover; background-position: center;">
-    <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);">Production Projects</h1>
-  </section>
-
-  <main class="post-article production-projects-page">
-    <article>
-      <div class="meta">Admin · Mar 21, 2023 · 4 min read</div>
-      <section class="post-content" id="markdown-content">
-        <p>Loading...</p>
-      </section>
-      <a href="/Blogs/blog-list.html"><button class="call-to-blog-button">Explore Blogs</button></a>
-    </article>
-
-    <section class="production-projects-section" aria-label="Featured production projects">
-      <h2 class="production-projects-heading">Featured Projects</h2>
-      <p class="production-projects-subtitle">
-        Each card opens the README and repository files in your browser static frontend only, no backend server.
-      </p>
-      <div id="project-cards" class="project-cards-grid"></div>
+    <section class="hero" style="background-image: linear-gradient(rgba(18, 18, 18, 0.38), rgba(18, 18, 18, 0.58)), url('/featuredimages/1.jpg'); background-size: cover; background-position: center;">
+        <h1 style="font-size: clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem);">Production Projects</h1>
     </section>
-  </main>
 
-  <footer>
-    <div class="copyright"><p>© 2035 Dexteritycoder</p></div>
-  </footer>
+    <main class="post-article production-projects-page">
+        <article>
+            <div class="meta">Admin · Mar 21, 2023 · 4 min read</div>
+            <section class="post-content" id="markdown-content">
+                <p>Loading...</p>
+            </section>
+            <a href="/Blogs/blog-list.html"><button class="call-to-blog-button">Explore Blogs</button></a>
+        </article>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="/project-viewer.js"></script>
-  <script src="/script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const response = await fetch('/posts/production-projects.md');
-        const markdown = await response.text();
-        document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
-      } catch (error) {
-        console.error('Error loading markdown:', error);
-        document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
-      }
+        <section class="production-projects-section" aria-label="Featured production projects">
+            <h2 class="production-projects-heading">Featured Projects</h2>
+            <p class="production-projects-subtitle">
+                Each card opens the README and repository files in your browser static frontend only, no backend server.
+            </p>
+            <div id="project-cards" class="project-cards-grid"></div>
+        </section>
+    </main>
 
-      renderProjectCards(document.getElementById('project-cards'), PROJECTS);
-    });
-  </script>
+    <footer>
+        <div class="copyright"><p>© 2035 Dexteritycoder</p></div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/project-viewer.js"></script>
+    <script src="/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('DOM loaded!');
+            try {
+                console.log('Loading markdown...');
+                const response = await fetch('/posts/production-projects.md');
+                const markdown = await response.text();
+                console.log('Markdown loaded, parsing...');
+                document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                document.getElementById('markdown-content').innerHTML = '<p>Error loading content.</p>';
+            }
+
+            try {
+                console.log('Loading projects from JSON...');
+                const projects = await loadProjectsFromJson();
+                console.log('Projects loaded:', projects);
+                renderProjectCards(document.getElementById('project-cards'), projects);
+                console.log('Project cards rendered!');
+            } catch (error) {
+                console.error('Error loading or rendering projects:', error);
+            }
+        });
+    </script>
 </body>
+
 </html>
-
-

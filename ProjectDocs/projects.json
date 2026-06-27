@@ -1,0 +1,32 @@
+[
+  {
+    "id": "dexteritycoder.github.io",
+    "title": "Dexteritycoder Website",
+    "heroTitle": "Dexteritycoder Portfolio",
+    "description": "The portfolio and blog site you are browsing right now — static HTML, markdown posts, and a dark editorial layout.",
+    "image": "/featuredimages/1.jpg",
+    "meta": "Web · Static Site",
+    "github": "https://github.com/dexteritycoder/dexteritycoder.github.io",
+    "docFile": "dexteritycoder-website.md"
+  },
+  {
+    "id": "Hand-Gesture-Recognition---Major-Project-2026-BCA-",
+    "title": "Hand Gesture Recognition",
+    "heroTitle": "Hand Gesture Recognition",
+    "description": "Real-time hand landmark detection with MediaPipe and OpenCV, mapped to system-level control actions.",
+    "image": "/featuredimages/2.jpg",
+    "meta": "Python · Computer Vision",
+    "github": "https://github.com/abhinav25232354/Hand-Gesture-Recognition---Major-Project-2026-BCA-",
+    "docFile": "hand-gesture-recognition.md"
+  },
+  {
+    "id": "your-next-project",
+    "title": "Your Next Project",
+    "heroTitle": "Your Next Project",
+    "description": "Replace this card with any public repository URL. The detail page will load its README and full file tree in-site.",
+    "image": "/featuredimages/3.jpg",
+    "meta": "Template · Edit ProjectDocs/projects.json",
+    "github": "https://github.com/dexteritycoder/dexteritycoder.github.io",
+    "docFile": "your-next-project.md"
+  }
+]

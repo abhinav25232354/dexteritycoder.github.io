@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script src="/project-viewer.js"></script>
+</head>
+<body>
+    <h1>Test</h1>
+    <button onclick="testLoad()">Test Load</button>
+    <div id="result"></div>
+    <script>
+        async function testLoad() {
+            const projects = await loadProjectsFromJson();
+            document.getElementById('result').innerText = JSON.stringify(projects, null, 2);
+        }
+    </script>
+</body>
+</html>

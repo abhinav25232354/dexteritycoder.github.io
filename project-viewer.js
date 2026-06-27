@@ -1,38 +1,22 @@
 /**
- * Production project cards — edit PROJECTS below.
+ * Production project cards — edit ProjectDocs/projects.json
  * Only `github` is required for the detail page; other fields are for the card preview.
  * `heroTitle` — optional custom title on the project detail hero (falls back to `title`, then repo name).
  * Everything runs in the browser — no server or backend.
  */
-const PROJECTS = [
-  {
-    title: "Dexteritycoder Website",
-    heroTitle: "Dexteritycoder Portfolio",
-    description:
-      "The portfolio and blog site you are browsing right now — static HTML, markdown posts, and a dark editorial layout.",
-    image: "/featuredimages/1.jpg",
-    meta: "Web · Static Site",
-    github: "https://github.com/dexteritycoder/dexteritycoder.github.io",
-  },
-  {
-    title: "Hand Gesture Recognition",
-    heroTitle: "Hand Gesture Recognition",
-    description:
-      "Real-time hand landmark detection with MediaPipe and OpenCV, mapped to system-level control actions.",
-    image: "/featuredimages/2.jpg",
-    meta: "Python · Computer Vision",
-    github: "https://github.com/abhinav25232354/Hand-Gesture-Recognition---Major-Project-2026-BCA-",
-  },
-  {
-    title: "Your Next Project",
-    heroTitle: "Your Next Project",
-    description:
-      "Replace this card with any public repository URL. The detail page will load its README and full file tree in-site.",
-    image: "/featuredimages/3.jpg",
-    meta: "Template · Edit project-viewer.js",
-    github: "https://github.com/dexteritycoder/dexteritycoder.github.io",
-  },
-];
+let PROJECTS = [];
+
+// Function to load projects from ProjectDocs/projects.json
+async function loadProjectsFromJson() {
+  try {
+    const response = await fetch("/ProjectDocs/projects.json");
+    PROJECTS = await response.json();
+    return PROJECTS;
+  } catch (error) {
+    console.error("Failed to load projects from JSON:", error);
+    return [];
+  }
+}
 
 const README_NAMES = ["README.md", "Readme.md", "readme.md", "README.MD"];
 const BRANCH_FALLBACKS = ["main", "master"];
@@ -398,6 +382,32 @@ function renderProjectCards(container, projects) {
   });
 }
 
+async function loadProjectDocumentation(repoId) {
+  try {
+    // First load projects.json to find doc file for this repo
+    const projectsJsonResponse = await fetch("/ProjectDocs/projects.json");
+    const projectsDocs = await projectsJsonResponse.json();
+    const projectDoc = projectsDocs.find(p => p.id === repoId);
+    
+    if (!projectDoc || !projectDoc.docFile) {
+      return { hasDoc: false, title: "Project Documentation" };
+    }
+    
+    // Load markdown file
+    const mdResponse = await fetch(`/ProjectDocs/${projectDoc.docFile}`);
+    const mdContent = await mdResponse.text();
+    
+    return {
+      hasDoc: true,
+      title: projectDoc.title,
+      markdown: mdContent
+    };
+  } catch (error) {
+    console.error("Error loading project documentation:", error);
+    return { hasDoc: false, title: "Project Documentation" };
+  }
+}
+
 async function initProjectDetailPage() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("repo");
@@ -411,12 +421,17 @@ async function initProjectDetailPage() {
     throw new Error("Invalid repository path. Use owner/repo.");
   }
 
+  // Load projects from ProjectDocs/projects.json first
+  await loadProjectsFromJson();
+
   const titleEl = document.getElementById("project-title");
   const metaEl = document.getElementById("project-meta");
   const treeEl = document.getElementById("project-tree");
   const fileTitleEl = document.getElementById("file-title");
   const fileContentEl = document.getElementById("file-content");
   const backLink = document.getElementById("back-to-projects");
+  const docsTitleEl = document.getElementById("docs-title");
+  const docsContentEl = document.getElementById("project-docs-content");
   
   // Find project in PROJECTS array to get GitHub URL and custom meta
   const project = findProjectBySlug(owner, repo);
@@ -516,4 +531,15 @@ async function initProjectDetailPage() {
       }
     }
   });
+  
+  // Load and render project documentation
+  const docs = await loadProjectDocumentation(repo);
+  if (docsTitleEl) docsTitleEl.textContent = docs.title;
+  if (docsContentEl) {
+    if (docs.hasDoc) {
+      docsContentEl.innerHTML = marked.parse(docs.markdown);
+    } else {
+      docsContentEl.innerHTML = `<p class="repo-empty-state">No documentation available for this project yet.</p>`;
+    }
+  }
 }

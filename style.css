@@ -1479,6 +1479,33 @@ form p {
     box-shadow: var(--surface-shadow);
 }
 
+.project-documentation-section {
+    max-width: var(--page-width);
+    margin: 3rem auto 0;
+    background: var(--secondbackground);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--surface-shadow);
+}
+
+.project-documentation-section h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-text);
+    font-size: 1.75rem;
+}
+
+.project-documentation-section .post-content img {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+    display: block;
+    margin: 16px auto;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .project-sidebar-section h2,
 .project-file-viewer-header h2 {
     margin: 0 0 14px;
