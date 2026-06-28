@@ -1,13 +1,13 @@
 [
   {
-    "id": "dexteritycoder.github.io",
-    "title": "Dexteritycoder Website",
-    "heroTitle": "Dexteritycoder Portfolio",
-    "description": "The portfolio and blog site you are browsing right now — static HTML, markdown posts, and a dark editorial layout.",
+    "id": "Offline Music Library System",
+    "title": "Offline Music Library System",
+    "heroTitle": "Offline Music Library System",
+    "description": "This system is designed for building and maintaining a long term offline music library.",
     "image": "/featuredimages/1.jpg",
-    "meta": "Web · Static Site",
-    "github": "https://github.com/dexteritycoder/dexteritycoder.github.io",
-    "docFile": "dexteritycoder-website.md"
+    "meta": "Python & Shell · Archive Management",
+    "github": "https://github.com/abhinav25232354/Offline-Music-Library-Management-Stack",
+    "docFile": "offline-music-library-system.md"
   },
   {
     "id": "Hand-Gesture-Recognition---Major-Project-2026-BCA-",
@@ -18,15 +18,5 @@
     "meta": "Python · Computer Vision",
     "github": "https://github.com/abhinav25232354/Hand-Gesture-Recognition---Major-Project-2026-BCA-",
     "docFile": "hand-gesture-recognition.md"
-  },
-  {
-    "id": "your-next-project",
-    "title": "Your Next Project",
-    "heroTitle": "Your Next Project",
-    "description": "Replace this card with any public repository URL. The detail page will load its README and full file tree in-site.",
-    "image": "/featuredimages/3.jpg",
-    "meta": "Template · Edit ProjectDocs/projects.json",
-    "github": "https://github.com/dexteritycoder/dexteritycoder.github.io",
-    "docFile": "your-next-project.md"
   }
 ]

@@ -417,15 +417,15 @@ p {
 .home-page .blog-content h3 {
     font-size: clamp(1.12rem, 0.6vw + 1rem, 1.45rem);
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    --webkit-box-orient: vertical;
+    --webkit-line-clamp: 2;
     overflow: hidden;
 }
 
 .home-page .blog-content p {
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    --webkit-box-orient: vertical;
+    --webkit-line-clamp: 4;
     overflow: hidden;
 }
 
@@ -1149,15 +1149,15 @@ form p {
 .project-card .blog-content h3 {
     font-size: clamp(1.12rem, 0.6vw + 1rem, 1.45rem);
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    --webkit-box-orient: vertical;
+    --webkit-line-clamp: 2;
     overflow: hidden;
 }
 
 .project-card .blog-content p {
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    --webkit-box-orient: vertical;
+    --webkit-line-clamp: 4;
     overflow: hidden;
 }
 
