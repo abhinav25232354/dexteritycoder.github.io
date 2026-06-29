@@ -382,12 +382,16 @@ function renderProjectCards(container, projects) {
   });
 }
 
-async function loadProjectDocumentation(repoId) {
+async function loadProjectDocumentation(owner, repo) {
   try {
-    // First load projects.json to find doc file for this repo
-    const projectsJsonResponse = await fetch("/ProjectDocs/projects.json");
-    const projectsDocs = await projectsJsonResponse.json();
-    const projectDoc = projectsDocs.find(p => p.id === repoId);
+    // First load projects from JSON
+    const projects = await loadProjectsFromJson();
+    // Find project by owner/repo (same way as findProjectBySlug)
+    const slug = repoSlug(owner, repo).toLowerCase();
+    const projectDoc = projects.find((project) => {
+      const parsed = parseGithubUrl(project.github);
+      return parsed && repoSlug(parsed.owner, parsed.repo).toLowerCase() === slug;
+    });
     
     if (!projectDoc || !projectDoc.docFile) {
       return { hasDoc: false, title: "Project Documentation" };
@@ -533,7 +537,7 @@ async function initProjectDetailPage() {
   });
   
   // Load and render project documentation
-  const docs = await loadProjectDocumentation(repo);
+  const docs = await loadProjectDocumentation(owner, repo);
   if (docsTitleEl) docsTitleEl.textContent = docs.title;
   if (docsContentEl) {
     if (docs.hasDoc) {
