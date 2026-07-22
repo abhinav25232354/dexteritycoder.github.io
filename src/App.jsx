@@ -5,6 +5,7 @@ import {
   Routes,
   useLocation,
   useNavigate,
+  useParams,
 } from "react-router-dom";
 import { marked } from "marked";
 import {
@@ -140,6 +141,19 @@ function useTransitionNavigate() {
   };
 }
 
+function buildBlogRoute(blogId) {
+  return `/blog/${encodeURIComponent(blogId)}`;
+}
+
+function buildProjectRoute(repo) {
+  const [owner, name] = String(repo || "").split("/");
+  if (!owner || !name) {
+    return "/project";
+  }
+
+  return `/project/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+}
+
 function TransitionLink({ href, className, children, style, ...rest }) {
   const navigateWithTransition = useTransitionNavigate();
   const externalOnClick = rest.onClick;
@@ -271,7 +285,7 @@ function Navbar({ siteData }) {
       </button>
       <div className="navbar">
         <div id="leftnav">
-          <TransitionLink href="/index.html" style={{ textDecoration: "none", color: "inherit" }}>
+          <TransitionLink href="/" style={{ textDecoration: "none", color: "inherit" }}>
             <h4>DEXTERITYCODER</h4>
           </TransitionLink>
         </div>
@@ -387,7 +401,7 @@ function WorkCard({ card }) {
     <div
       className="blog-card"
       data-post={card.slug}
-      onClick={() => navigateWithTransition(`/pages/${card.slug}.html`)}
+      onClick={() => navigateWithTransition(`/${card.slug}`)}
     >
       <div className="blog-card-media">
         <img src={card.image} alt="Dexteritycoder featured post" />
@@ -433,7 +447,7 @@ function HomePage({ siteData }) {
       </section>
       <div className="all_posts_btn">
         <center>
-          <TransitionLink href="/pages/blog.html">
+          <TransitionLink href="/works">
             <button type="button">View All Works</button>
           </TransitionLink>
         </center>
@@ -528,9 +542,7 @@ function WorkMarkdownPage({ siteData, slug, production = false }) {
                   <article
                     key={project.github}
                     className="blog-card project-card"
-                    onClick={() =>
-                      navigateWithTransition(`/pages/project-detail.html?repo=${encodeURIComponent(repo)}`)
-                    }
+                    onClick={() => navigateWithTransition(buildProjectRoute(repo))}
                   >
                     <div className="blog-card-media">
                       <img src={project.image} alt={project.title} />
@@ -679,9 +691,7 @@ function BlogListPage({ siteData }) {
                 key={post.id}
                 className="blog-card"
                 data-blog={post.id}
-                onClick={() =>
-                  navigateWithTransition(`/Blogs/blog-detail.html?blog=${encodeURIComponent(post.id)}`)
-                }
+                onClick={() => navigateWithTransition(buildBlogRoute(post.id))}
               >
                 <div className="blog-card-media">
                   <img src={post.image} alt={post.title} />
@@ -706,7 +716,8 @@ function BlogListPage({ siteData }) {
 
 function BlogDetailPage({ siteData }) {
   const location = useLocation();
-  const blogId = new URLSearchParams(location.search).get("blog");
+  const { blogId: blogIdParam } = useParams();
+  const blogId = blogIdParam || new URLSearchParams(location.search).get("blog");
   const { data: posts } = useJson("/BlogPosts/posts.json");
   const [markdown, setMarkdown] = useState("");
   const [error, setError] = useState(null);
@@ -828,7 +839,11 @@ function FileIcon() {
 
 function ProjectDetailPage({ siteData }) {
   const location = useLocation();
-  const repoQuery = new URLSearchParams(location.search).get("repo");
+  const { owner: ownerParam, repo: repoParam } = useParams();
+  const repoQuery =
+    ownerParam && repoParam
+      ? `${decodeURIComponent(ownerParam)}/${decodeURIComponent(repoParam)}`
+      : new URLSearchParams(location.search).get("repo");
   const [state, setState] = useState({
     loading: true,
     error: null,
@@ -967,7 +982,7 @@ function ProjectDetailPage({ siteData }) {
         heroClassName="hero"
       />
       <main className="project-detail-shell">
-        <TransitionLink id="back-to-projects" className="project-back-link" href="/pages/production-projects.html">
+        <TransitionLink id="back-to-projects" className="project-back-link" href="/production-projects">
           Back to Production Projects
         </TransitionLink>
         <div className="project-detail-layout">
@@ -1047,23 +1062,34 @@ function AppRoutes({ siteData }) {
   return (
     <Routes>
       <Route path="/" element={<HomePage siteData={siteData} />} />
-      <Route path="/index.html" element={<HomePage siteData={siteData} />} />
-      <Route path="/pages/blog.html" element={<WorksPage siteData={siteData} />} />
-      <Route path="/pages/production-projects.html" element={<WorkMarkdownPage siteData={siteData} slug="production-projects" production />} />
-      <Route path="/pages/ai-machine-learning.html" element={<WorkMarkdownPage siteData={siteData} slug="ai-machine-learning" />} />
-      <Route path="/pages/train-to-thoughts.html" element={<WorkMarkdownPage siteData={siteData} slug="train-to-thoughts" />} />
-      <Route path="/pages/available-for-freelancing.html" element={<WorkMarkdownPage siteData={siteData} slug="available-for-freelancing" />} />
-      <Route path="/pages/about.html" element={<AboutPage siteData={siteData} />} />
-      <Route path="/pages/contact.html" element={<ContactPage siteData={siteData} />} />
-      <Route path="/pages/donate.html" element={<DonatePage siteData={siteData} />} />
-      <Route path="/Blogs/blog-list.html" element={<BlogListPage siteData={siteData} />} />
+      <Route path="/index.html" element={<Navigate to="/" replace />} />
+      <Route path="/works" element={<WorksPage siteData={siteData} />} />
+      <Route path="/production-projects" element={<WorkMarkdownPage siteData={siteData} slug="production-projects" production />} />
+      <Route path="/ai-machine-learning" element={<WorkMarkdownPage siteData={siteData} slug="ai-machine-learning" />} />
+      <Route path="/train-to-thoughts" element={<WorkMarkdownPage siteData={siteData} slug="train-to-thoughts" />} />
+      <Route path="/available-for-freelancing" element={<WorkMarkdownPage siteData={siteData} slug="available-for-freelancing" />} />
+      <Route path="/about" element={<AboutPage siteData={siteData} />} />
+      <Route path="/contact" element={<ContactPage siteData={siteData} />} />
+      <Route path="/donate" element={<DonatePage siteData={siteData} />} />
+      <Route path="/blog" element={<BlogListPage siteData={siteData} />} />
+      <Route path="/blog/:blogId" element={<BlogDetailPage siteData={siteData} />} />
+      <Route path="/project/:owner/:repo" element={<ProjectDetailPage siteData={siteData} />} />
+      <Route path="/pages/blog.html" element={<Navigate to="/works" replace />} />
+      <Route path="/pages/production-projects.html" element={<Navigate to="/production-projects" replace />} />
+      <Route path="/pages/ai-machine-learning.html" element={<Navigate to="/ai-machine-learning" replace />} />
+      <Route path="/pages/train-to-thoughts.html" element={<Navigate to="/train-to-thoughts" replace />} />
+      <Route path="/pages/available-for-freelancing.html" element={<Navigate to="/available-for-freelancing" replace />} />
+      <Route path="/pages/about.html" element={<Navigate to="/about" replace />} />
+      <Route path="/pages/contact.html" element={<Navigate to="/contact" replace />} />
+      <Route path="/pages/donate.html" element={<Navigate to="/donate" replace />} />
+      <Route path="/Blogs/blog-list.html" element={<Navigate to="/blog" replace />} />
       <Route path="/Blogs/blog-detail.html" element={<BlogDetailPage siteData={siteData} />} />
       <Route path="/pages/project-detail.html" element={<ProjectDetailPage siteData={siteData} />} />
-      <Route path="/pages/post1.html" element={<Navigate to="/pages/production-projects.html" replace />} />
-      <Route path="/pages/post2.html" element={<Navigate to="/pages/ai-machine-learning.html" replace />} />
-      <Route path="/pages/post3.html" element={<Navigate to="/pages/train-to-thoughts.html" replace />} />
-      <Route path="/pages/post4.html" element={<Navigate to="/pages/available-for-freelancing.html" replace />} />
-      <Route path="*" element={<Navigate to="/index.html" replace />} />
+      <Route path="/pages/post1.html" element={<Navigate to="/production-projects" replace />} />
+      <Route path="/pages/post2.html" element={<Navigate to="/ai-machine-learning" replace />} />
+      <Route path="/pages/post3.html" element={<Navigate to="/train-to-thoughts" replace />} />
+      <Route path="/pages/post4.html" element={<Navigate to="/available-for-freelancing" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
