@@ -1,0 +1,153 @@
+{
+  "navigation": [
+    { "label": "HOME", "href": "/index.html" },
+    { "label": "WORKS", "href": "/pages/blog.html" },
+    { "label": "BLOGS", "href": "/Blogs/blog-list.html" },
+    { "label": "DONATE", "href": "/pages/donate.html" },
+    { "label": "CONTACT", "href": "/pages/contact.html" },
+    { "label": "ABOUT", "href": "/pages/about.html" }
+  ],
+  "footer": {
+    "brand": "DEXTERITYCODER",
+    "copyright": "© 2035 Dexteritycoder",
+    "newsletterPrompt": "Enter your email here *",
+    "newsletterCheckbox": "Yes, subscribe me to your newsletter.",
+    "newsletterButton": "Subscribe",
+    "socials": [
+      { "label": "Facebook", "href": "#", "icon": "/images/facebook.avif" },
+      { "label": "Twitter", "href": "#", "icon": "/images/twitter.avif" },
+      { "label": "Pinterest", "href": "#", "icon": "/images/pinterest.avif" },
+      { "label": "Instagram", "href": "#", "icon": "/images/instagram.avif" }
+    ]
+  },
+  "home": {
+    "heroTitleHtml": "<b>CODE</b> FOR <b>LIFE</b>",
+    "works": [
+      {
+        "slug": "production-projects",
+        "image": "/featuredimages/1.jpg",
+        "meta": "Admin · Mar 21, 2023 · 1 min read",
+        "title": "Production Projects",
+        "description": "Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading....",
+        "views": "50.6k views",
+        "comments": "0 comments",
+        "likes": "❤ 23.7k"
+      },
+      {
+        "slug": "ai-machine-learning",
+        "image": "/featuredimages/2.jpg",
+        "meta": "Admin · Mar 21, 2023 · 1 min read",
+        "title": "Artificial Intelligence & Machine Learning",
+        "description": "Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading....",
+        "views": "25.2k views",
+        "comments": "0 comments",
+        "likes": "❤ 14.8k"
+      },
+      {
+        "slug": "train-to-thoughts",
+        "image": "/featuredimages/3.jpg",
+        "meta": "Admin · Mar 21, 2023 · 1 min read",
+        "title": "Train to Thoughts",
+        "description": "Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading....",
+        "views": "90.2k views",
+        "comments": "0 comments",
+        "likes": "❤ 67.4k"
+      },
+      {
+        "slug": "available-for-freelancing",
+        "image": "/featuredimages/4.jpg",
+        "meta": "Admin · Mar 21, 2023 · 1 min read",
+        "title": "Available for Freelancing",
+        "description": "Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading....",
+        "views": "0 views",
+        "comments": "0 comments",
+        "likes": "❤ 5"
+      }
+    ],
+    "gallery": [
+      { "image": "/featuredimages/1.jpg", "alt": "Dexteritycoder gallery image 1" },
+      { "image": "/BlogImages/jarvis-blog.webp", "alt": "Dexteritycoder gallery image 2" },
+      { "image": "/BlogImages/learning-from-scratch.webp", "alt": "Dexteritycoder gallery image 3" },
+      { "image": "/featuredimages/2.jpg", "alt": "Dexteritycoder gallery image 4" },
+      { "image": "/featuredimages/3.jpg", "alt": "Dexteritycoder gallery image 5" },
+      { "image": "/featuredimages/4.jpg", "alt": "Dexteritycoder gallery image 6" },
+      { "image": "/BlogImages/hosting-become-business.webp", "alt": "Dexteritycoder gallery image 7" }
+    ]
+  },
+  "works": {
+    "listing": {
+      "heroTitleHtml": "<b>WORDS</b> THAT <b>BUILD</b>"
+    },
+    "pages": {
+      "production-projects": {
+        "title": "Production Projects",
+        "documentTitle": "Production Projects | Dexteritycoder",
+        "heroTitle": "Production Projects",
+        "heroImage": "/featuredimages/1.jpg",
+        "meta": "Admin · Mar 21, 2023 · 4 min read",
+        "markdownPath": "/posts/production-projects.md",
+        "ctaLabel": "Explore Blogs",
+        "ctaHref": "/Blogs/blog-list.html"
+      },
+      "ai-machine-learning": {
+        "title": "Artificial Intelligence & Machine Learning",
+        "documentTitle": "AI & Machine Learning | Dexteritycoder",
+        "heroTitle": "Artificial Intelligence & Machine Learning",
+        "heroImage": "/featuredimages/2.jpg",
+        "meta": "Admin · Mar 21, 2023 · 6 min read",
+        "markdownPath": "/posts/ai-machine-learning.md",
+        "ctaLabel": "Explore Blogs",
+        "ctaHref": "/Blogs/blog-list.html"
+      },
+      "train-to-thoughts": {
+        "title": "Train to Thoughts",
+        "documentTitle": "Train to Thoughts | Dexteritycoder",
+        "heroTitle": "Train to Thoughts",
+        "heroImage": "/featuredimages/3.jpg",
+        "meta": "Admin · Mar 21, 2023 · 3 min read",
+        "markdownPath": "/posts/train-to-thoughts.md",
+        "ctaLabel": "Explore Blogs",
+        "ctaHref": "/Blogs/blog-list.html"
+      },
+      "available-for-freelancing": {
+        "title": "Available for Freelancing",
+        "documentTitle": "Available for Freelancing | Dexteritycoder",
+        "heroTitle": "Available for Freelancing",
+        "heroImage": "/featuredimages/4.jpg",
+        "meta": "Admin · Mar 21, 2023 · 2 min read",
+        "markdownPath": "/posts/available-for-freelancing.md",
+        "ctaLabel": "Contact Me",
+        "ctaHref": "/pages/contact.html"
+      }
+    }
+  },
+  "about": {
+    "documentTitle": "About | Dexteritycoder",
+    "heroTitleHtml": "<b>STORIES</b> OF <b>CRAFT</b>",
+    "markdownPath": "/posts/about.md",
+    "ctaLabel": "Explore Blogs",
+    "ctaHref": "/Blogs/blog-list.html",
+    "gallery": [
+      { "image": "/featuredimages/1.jpg", "alt": "Dexteritycoder image 3" },
+      { "image": "/featuredimages/2.jpg", "alt": "Dexteritycoder image 4" },
+      { "image": "/featuredimages/3.jpg", "alt": "Dexteritycoder image 5" },
+      { "image": "/featuredimages/4.jpg", "alt": "Dexteritycoder image 6" }
+    ]
+  },
+  "contact": {
+    "documentTitle": "Contact | Dexteritycoder",
+    "heroTitleHtml": "<b>LET'S</b> BUILD <b>TOGETHER</b>"
+  },
+  "donate": {
+    "documentTitle": "Donate | Dexteritycoder",
+    "heroTitleHtml": "<b>SUPPORT</b> OUR <b>MISSION</b>",
+    "heading": "Help us grow",
+    "description": "Your support helps us continue to create free, high-quality content and open-source tools for the community. Every contribution, big or small, makes a difference!",
+    "iframeUrl": "https://rzp.io/rzp/pY7ypaE"
+  },
+  "blogs": {
+    "documentTitle": "Blogs | Dexteritycoder",
+    "heroTitleHtml": "TIME OUTSIDE SCREENS",
+    "searchPlaceholder": "Search blogs by title, description, or author..."
+  }
+}

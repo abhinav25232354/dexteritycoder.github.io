@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dexteritycoder</title>
+    <script>
+      const segment = window.location.pathname + window.location.search + window.location.hash;
+      const target = "/?/" + segment.slice(1).replace(/&/g, "~and~");
+      window.location.replace(target);
+    </script>
+  </head>
+  <body></body>
+</html>

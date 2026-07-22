@@ -1,199 +1,32 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap"
-        rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/logo.png">
-    <link rel="stylesheet" href="style.css">
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="icon" type="image/x-icon" href="/images/logo.png">
     <title>Dexteritycoder</title>
-</head>
+    <script>
+      (function redirectSpaPath(location) {
+        if (!location.search.startsWith("?/")) {
+          return;
+        }
 
-<body class="home-page">
-    <button class="ham" onclick="ham()" aria-label="Open menu" type="button">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </button>
-    <div class="navbar">
-        <div id="leftnav">
-            <a href="index.html" style="text-decoration: none; color: inherit;">
-                <h4>DEXTERITYCODER</h4>
-            </a>
-        </div>
-        <div id="rightnav">
-            <ul id="rightnavul">
-                <a href="index.html">
-                    <li>HOME</li>
-                </a>
-                <a href="/pages/blog.html">
-                    <li>WORKS</li>
-                </a>
-                <a href="/Blogs/blog-list.html">
-                    <li>BLOGS</li>
-                </a> <a href="/pages/donate.html"><li>DONATE</li></a> <a href="/pages/contact.html">
-                    <li>CONTACT</li>
-                </a>
-                <a href="/pages/about.html">
-                    <li>ABOUT</li>
-                </a>
-            </ul>
-        </div>
-    </div>
-
-    <section class="hero">
-        <div class="hero-inner">
-            <h1><b>CODE</b> FOR <b>LIFE</b></h1>
-        </div>
-    </section>
-
-    <section class="home-blog-grid">
-        <div class="blog-card" data-post="production-projects">
-            <div class="blog-card-media">
-                <img src="/featuredimages/1.jpg" alt="Dexteritycoder featured post">
-            </div>
-            <div class="blog-content">
-                <div class="meta">Admin · Mar 21, 2023 · 1 min read</div>
-                <h3>Production Projects</h3>
-                <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your
-                    audience to continue reading....</p>
-                <div class="blog-footer">
-                    <span class="views">50.6k views</span>
-                    <span class="comments">0 comments</span>
-                    <span class="like">❤ 23.7k</span>
-                </div>
-            </div>
-        </div>
-        <div class="blog-card" data-post="ai-machine-learning">
-            <div class="blog-card-media">
-                <img src="/featuredimages/2.jpg" alt="Dexteritycoder featured post">
-            </div>
-            <div class="blog-content">
-                <div class="meta">Admin · Mar 21, 2023 · 1 min read</div>
-                <h3>Artificial Intelligence & Machine Learning</h3>
-                <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your
-                    audience to continue reading....</p>
-                <div class="blog-footer">
-                    <span class="views">25.2k views</span>
-                    <span class="comments">0 comments</span>
-                    <span class="like">❤ 14.8k</span>
-                </div>
-            </div>
-        </div>
-        <div class="blog-card" data-post="train-to-thoughts">
-            <div class="blog-card-media">
-                <img src="/featuredimages/3.jpg" alt="Dexteritycoder featured post">
-            </div>
-            <div class="blog-content">
-                <div class="meta">Admin · Mar 21, 2023 · 1 min read</div>
-                <h3>Train to Thoughts</h3>
-                <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your
-                    audience to continue reading....</p>
-                <div class="blog-footer">
-                    <span class="views">90.2k views</span>
-                    <span class="comments">0 comments</span>
-                    <span class="like">❤ 67.4k</span>
-                </div>
-            </div>
-        </div>
-        <div class="blog-card" data-post="available-for-freelancing">
-            <div class="blog-card-media">
-                <img src="/featuredimages/4.jpg" alt="Dexteritycoder featured post">
-            </div>
-            <div class="blog-content">
-                <div class="meta">Admin · Mar 21, 2023 · 1 min read</div>
-                <h3>Available for Freelancing</h3>
-                <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your
-                    audience to continue reading....</p>
-                <div class="blog-footer">
-                    <span class="views">0 views</span>
-                    <span class="comments">0 comments</span>
-                    <span class="like">❤ 5</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="all_posts_btn">
-        <center>
-            <a href="/pages/blog.html"><button type="button">View All Works</button></a>
-        </center>
-    </div>
-
-    <div class="gallery-container">
-        <div class="gallery-title">GALLERY</div>
-        <div class="gallery-viewport">
-            <div class="gallery-slider">
-                <div class="gallery-item">
-                    <img src="/featuredimages/1.jpg" alt="Dexteritycoder gallery image 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="/BlogImages/jarvis-blog.webp" alt="Dexteritycoder gallery image 2">
-                </div>
-                <div class="gallery-item">
-                    <img src="/BlogImages/learning-from-scratch.webp" alt="Dexteritycoder gallery image 3">
-                </div>
-                <div class="gallery-item">
-                    <img src="/featuredimages/2.jpg" alt="Dexteritycoder gallery image 4">
-                </div>
-                <div class="gallery-item">
-                    <img src="/featuredimages/3.jpg" alt="Dexteritycoder gallery image 5">
-                </div>
-                <div class="gallery-item">
-                    <img src="/featuredimages/4.jpg" alt="Dexteritycoder gallery image 6">
-                </div>
-                <div class="gallery-item">
-                    <img src="/BlogImages/hosting-become-business.webp" alt="Dexteritycoder gallery image 7">
-                </div>
-            </div>
-        </div>
-        <button class="gallery-button left" onclick="slideLeft()" type="button" aria-label="Previous gallery items">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-        <button class="gallery-button right" onclick="slideRight()" type="button" aria-label="Next gallery items">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-    </div>
-
-    <section class="whole_footer">
-        <footer>
-            <div class="social-icons">
-                <a href="#" aria-label="Facebook"><img src="/images/facebook.avif" alt=""></a>
-                <a href="#" aria-label="Twitter"><img src="/images/twitter.avif" alt=""></a>
-                <a href="#" aria-label="Pinterest"><img src="/images/pinterest.avif" alt=""></a>
-                <a href="#" aria-label="Instagram"><img src="/images/instagram.avif" alt=""></a>
-            </div>
-            <hr class="footer_hr">
-            <div class="newsletter">
-                <h1>DEXTERITYCODER</h1>
-                <form action="#">
-                    <p>Enter your email here *</p>
-                    <input type="email" required>
-                    <div class="newsletter-check">
-                        <input type="checkbox" id="subscribe">
-                        <label for="subscribe">Yes, subscribe me to your newsletter.</label>
-                    </div>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-            <hr class="footer_hr">
-            <div class="copyright">
-                <p>© 2035 Dexteritycoder</p>
-            </div>
-        </footer>
-    </section>
-</body>
-<script src="script.js"></script>
-
+        const decoded = location.search
+          .slice(2)
+          .replace(/~and~/g, "&");
+        const nextUrl = decoded + location.hash;
+        window.history.replaceState(null, "", nextUrl);
+      })(window.location);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
-
-
