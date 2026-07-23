@@ -215,16 +215,29 @@ function useEngagement() {
       email: profile.email,
     };
     setProfile(nextProfile);
+    setError("");
 
-    const stats = await toggleLike({
-      entityType,
-      entityId,
+    const previousStatsMap = statsMap;
+    const optimisticStatsMap = applyOptimisticLikeToggle(statsMap, entityType, entityId, {
       actorId: nextProfile.actorId,
       actorName: nextProfile.name,
     });
-    setStatsMap(stats);
-    setError("");
-    return stats[entityKey(entityType, entityId)] || null;
+    setStatsMap(optimisticStatsMap);
+
+    try {
+      const stats = await toggleLike({
+        entityType,
+        entityId,
+        actorId: nextProfile.actorId,
+        actorName: nextProfile.name,
+      });
+      setStatsMap(stats);
+      return stats[entityKey(entityType, entityId)] || null;
+    } catch (toggleError) {
+      setStatsMap(previousStatsMap);
+      setError(toggleError.message);
+      throw toggleError;
+    }
   }
 
   async function handleCreateComment({ entityType, entityId, authorName, authorEmail, message }) {
@@ -481,13 +494,22 @@ function LikeButton({ entityType, entityId, engagement, className = "", showCoun
   const stats = getEntityStats(engagement.statsMap, entityType, entityId);
   const viewerHasLiked = stats.likedBy.some((entry) => entry.actorId === engagement.profile.actorId);
   const [busy, setBusy] = useState(false);
+  const [popTick, setPopTick] = useState(0);
 
   async function handleClick(event) {
     event.preventDefault();
     event.stopPropagation();
+    if (busy) {
+      return;
+    }
+
+    const willLike = !viewerHasLiked;
     setBusy(true);
 
     try {
+      if (willLike) {
+        setPopTick((value) => value + 1);
+      }
       await engagement.toggleLike({
         entityType,
         entityId,
@@ -503,15 +525,44 @@ function LikeButton({ entityType, entityId, engagement, className = "", showCoun
   return (
     <button
       type="button"
-      className={`like-button${viewerHasLiked ? " is-active" : ""}${className ? ` ${className}` : ""}`}
+      key={popTick}
+      className={`like-button${viewerHasLiked ? " is-active" : ""}${busy ? " is-busy" : ""}${className ? ` ${className}` : ""}`}
       onClick={handleClick}
-      disabled={busy}
       aria-label={viewerHasLiked ? "Unlike" : "Like"}
+      aria-pressed={viewerHasLiked}
     >
       <span className="like-button-heart">{viewerHasLiked ? "♥" : "♡"}</span>
       {showCount ? <span className="like-button-count">{formatCount(stats.likeCount)}</span> : null}
     </button>
   );
+}
+
+function applyOptimisticLikeToggle(currentStatsMap, entityType, entityId, actor) {
+  const key = entityKey(entityType, entityId);
+  const currentStats = getEntityStats(currentStatsMap, entityType, entityId);
+  const likedBy = Array.isArray(currentStats.likedBy) ? [...currentStats.likedBy] : [];
+  const existingIndex = likedBy.findIndex((entry) => entry.actorId === actor.actorId);
+  const isCurrentlyLiked = existingIndex >= 0;
+
+  if (isCurrentlyLiked) {
+    likedBy.splice(existingIndex, 1);
+  } else {
+    likedBy.unshift({
+      actorId: actor.actorId,
+      actorName: actor.actorName,
+      createdAt: new Date().toISOString(),
+    });
+  }
+
+  return {
+    ...currentStatsMap,
+    [key]: {
+      commentCount: Number(currentStats.commentCount || 0),
+      likeCount: Math.max(0, Number(currentStats.likeCount || 0) + (isCurrentlyLiked ? -1 : 1)),
+      comments: Array.isArray(currentStats.comments) ? [...currentStats.comments] : [],
+      likedBy,
+    },
+  };
 }
 
 function CommentsPanel({ entityType, entityId, engagement, title = "Comments" }) {
