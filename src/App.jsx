@@ -494,7 +494,7 @@ function LikeButton({ entityType, entityId, engagement, className = "", showCoun
   const stats = getEntityStats(engagement.statsMap, entityType, entityId);
   const viewerHasLiked = stats.likedBy.some((entry) => entry.actorId === engagement.profile.actorId);
   const [busy, setBusy] = useState(false);
-  const [popTick, setPopTick] = useState(0);
+  const [isPopping, setIsPopping] = useState(false);
 
   async function handleClick(event) {
     event.preventDefault();
@@ -508,7 +508,11 @@ function LikeButton({ entityType, entityId, engagement, className = "", showCoun
 
     try {
       if (willLike) {
-        setPopTick((value) => value + 1);
+        setIsPopping(false);
+        window.setTimeout(() => {
+          setIsPopping(true);
+          window.setTimeout(() => setIsPopping(false), 280);
+        }, 0);
       }
       await engagement.toggleLike({
         entityType,
@@ -525,8 +529,7 @@ function LikeButton({ entityType, entityId, engagement, className = "", showCoun
   return (
     <button
       type="button"
-      key={popTick}
-      className={`like-button${viewerHasLiked ? " is-active" : ""}${busy ? " is-busy" : ""}${className ? ` ${className}` : ""}`}
+      className={`like-button${viewerHasLiked ? " is-active" : ""}${isPopping ? " is-popping" : ""}${busy ? " is-busy" : ""}${className ? ` ${className}` : ""}`}
       onClick={handleClick}
       aria-label={viewerHasLiked ? "Unlike" : "Like"}
       aria-pressed={viewerHasLiked}

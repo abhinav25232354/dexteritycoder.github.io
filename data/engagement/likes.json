@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-23T07:20:46.978Z",
+  "updatedAt": "2026-07-23T09:00:14.904Z",
   "entities": {
     "blog:How to Make our own Jarvis with the help of python": {
       "legacyCount": 256,
@@ -20,13 +20,7 @@
     },
     "article:ai-machine-learning": {
       "legacyCount": 14800,
-      "entries": [
-        {
-          "actorId": "ab6d6567-ea65-4d3f-a991-f9bccad6dac7",
-          "actorName": "Abhinav",
-          "createdAt": "2026-07-23T06:58:50.572Z"
-        }
-      ]
+      "entries": []
     },
     "article:train-to-thoughts": {
       "legacyCount": 67400,
