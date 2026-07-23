@@ -1908,8 +1908,8 @@ form p {
 
 .like-button.is-active{
     border-color: rgba(255, 111, 141, 0.78);
-    background: linear-gradient(135deg, rgba(88, 10, 28, 0.98), rgba(33, 8, 14, 1));
-    box-shadow: 0 0 0 1px rgba(255, 111, 141, 0.26), 0 20px 40px rgba(120, 16, 42, 0.35);
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.96), rgba(7, 7, 7, 0.98));
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26);
 }
 
 .like-button.is-popping{
@@ -1920,7 +1920,12 @@ form p {
     font-size: 0.88rem;
     line-height: 1;
     color: #ff9aaf;
-    text-shadow: 0 0 14px rgba(255, 120, 150, 0.34);
+    text-shadow: none;
+}
+
+.like-button.is-active .like-button-heart{
+    color: #ff91a8;
+    text-shadow: 0 0 14px rgba(255, 120, 150, 0.52), 0 0 24px rgba(255, 120, 150, 0.24);
 }
 
 .like-button-count{
@@ -1951,6 +1956,11 @@ form p {
     aspect-ratio: auto;
     padding: 0 0.95rem;
     border-radius: 999px;
+}
+
+.detail-like-button.is-active{
+    background: linear-gradient(135deg, rgba(88, 10, 28, 0.98), rgba(33, 8, 14, 1));
+    box-shadow: 0 0 0 1px rgba(255, 111, 141, 0.26), 0 20px 40px rgba(120, 16, 42, 0.35);
 }
 
 .detail-like-button .like-button-heart{
