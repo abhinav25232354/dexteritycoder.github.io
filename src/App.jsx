@@ -9,6 +9,15 @@ import {
 } from "react-router-dom";
 import { marked } from "marked";
 import {
+  createComment,
+  entityKey,
+  fetchEngagementStats,
+  formatCount,
+  getEntityStats,
+  parseLooseCount,
+  toggleLike,
+} from "./lib/engagementApi";
+import {
   loadProjectDocumentation,
   loadProjectsFromJson,
   loadRepoFile,
@@ -154,6 +163,140 @@ function buildProjectRoute(repo) {
   return `/project/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
 }
 
+function useEngagement() {
+  const [statsMap, setStatsMap] = useState({});
+  const [profile, setProfile] = useState(() => loadStoredProfile());
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    persistProfile(profile);
+  }, [profile]);
+
+  useEffect(() => {
+    let active = true;
+
+    fetchEngagementStats()
+      .then((stats) => {
+        if (active) {
+          setStatsMap(stats);
+          setError("");
+        }
+      })
+      .catch((loadError) => {
+        if (active) {
+          setError(loadError.message);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  function saveProfile(updates) {
+    setProfile((current) => ({
+      actorId: current.actorId || createActorId(),
+      name: updates.name ?? current.name ?? "",
+      email: updates.email ?? current.email ?? "",
+    }));
+  }
+
+  async function refresh() {
+    const stats = await fetchEngagementStats();
+    setStatsMap(stats);
+    setError("");
+    return stats;
+  }
+
+  async function handleToggleLike({ entityType, entityId, actorName }) {
+    const nextProfile = {
+      actorId: profile.actorId || createActorId(),
+      name: actorName || profile.name || "Guest",
+      email: profile.email,
+    };
+    setProfile(nextProfile);
+
+    const stats = await toggleLike({
+      entityType,
+      entityId,
+      actorId: nextProfile.actorId,
+      actorName: nextProfile.name,
+    });
+    setStatsMap(stats);
+    setError("");
+    return stats[entityKey(entityType, entityId)] || null;
+  }
+
+  async function handleCreateComment({ entityType, entityId, authorName, authorEmail, message }) {
+    const nextProfile = {
+      actorId: profile.actorId || createActorId(),
+      name: authorName || profile.name,
+      email: authorEmail ?? profile.email,
+    };
+    setProfile(nextProfile);
+
+    const stats = await createComment({
+      entityType,
+      entityId,
+      actorId: nextProfile.actorId,
+      authorName: nextProfile.name,
+      authorEmail: nextProfile.email,
+      message,
+    });
+    setStatsMap(stats);
+    setError("");
+    return stats[entityKey(entityType, entityId)] || null;
+  }
+
+  return {
+    statsMap,
+    profile,
+    error,
+    saveProfile,
+    refresh,
+    toggleLike: handleToggleLike,
+    createComment: handleCreateComment,
+  };
+}
+
+function loadStoredProfile() {
+  if (typeof window === "undefined") {
+    return { actorId: "", name: "", email: "" };
+  }
+
+  try {
+    const raw = window.localStorage.getItem("dexteritycoder-profile");
+    if (!raw) {
+      return { actorId: createActorId(), name: "", email: "" };
+    }
+
+    const parsed = JSON.parse(raw);
+    return {
+      actorId: parsed.actorId || createActorId(),
+      name: parsed.name || "",
+      email: parsed.email || "",
+    };
+  } catch {
+    return { actorId: createActorId(), name: "", email: "" };
+  }
+}
+
+function persistProfile(profile) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem("dexteritycoder-profile", JSON.stringify(profile));
+}
+
+function createActorId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return `guest-${Math.random().toString(36).slice(2, 12)}`;
+}
+
 function TransitionLink({ href, className, children, style, ...rest }) {
   const navigateWithTransition = useTransitionNavigate();
   const externalOnClick = rest.onClick;
@@ -187,6 +330,289 @@ function TransitionLink({ href, className, children, style, ...rest }) {
     <a {...linkProps} href={href} className={className} style={style} onClick={handleClick}>
       {children}
     </a>
+  );
+}
+
+function EngagementPanel({ entityType, entityId, engagement, title = "Comments & Likes" }) {
+  const stats = getEntityStats(engagement.statsMap, entityType, entityId);
+  const viewerHasLiked = stats.likedBy.some((entry) => entry.actorId === engagement.profile.actorId);
+  const [authorName, setAuthorName] = useState(engagement.profile.name || "");
+  const [authorEmail, setAuthorEmail] = useState(engagement.profile.email || "");
+  const [message, setMessage] = useState("");
+  const [busyAction, setBusyAction] = useState("");
+  const [actionError, setActionError] = useState("");
+
+  useEffect(() => {
+    setAuthorName(engagement.profile.name || "");
+    setAuthorEmail(engagement.profile.email || "");
+  }, [engagement.profile.email, engagement.profile.name]);
+
+  async function handleLikeClick() {
+    const trimmedName = authorName.trim() || engagement.profile.name.trim();
+    if (!trimmedName) {
+      setActionError("Enter your name before liking this post.");
+      return;
+    }
+
+    setBusyAction("like");
+    setActionError("");
+
+    try {
+      engagement.saveProfile({ name: trimmedName, email: authorEmail.trim() });
+      await engagement.toggleLike({
+        entityType,
+        entityId,
+        actorName: trimmedName,
+      });
+    } catch (error) {
+      setActionError(error.message);
+    } finally {
+      setBusyAction("");
+    }
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const trimmedName = authorName.trim();
+    const trimmedMessage = message.trim();
+    if (!trimmedName || !trimmedMessage) {
+      setActionError("Name and comment are both required.");
+      return;
+    }
+
+    setBusyAction("comment");
+    setActionError("");
+
+    try {
+      engagement.saveProfile({ name: trimmedName, email: authorEmail.trim() });
+      await engagement.createComment({
+        entityType,
+        entityId,
+        authorName: trimmedName,
+        authorEmail: authorEmail.trim(),
+        message: trimmedMessage,
+      });
+      setMessage("");
+    } catch (error) {
+      setActionError(error.message);
+    } finally {
+      setBusyAction("");
+    }
+  }
+
+  return (
+    <section className="engagement-panel">
+      <div className="engagement-header">
+        <div>
+          <h2>{title}</h2>
+          <p>Comments and likes are loaded from persistent JSON data.</p>
+        </div>
+        <button
+          type="button"
+          className={`engagement-like-btn${viewerHasLiked ? " is-active" : ""}`}
+          onClick={handleLikeClick}
+          disabled={busyAction === "like"}
+        >
+          {viewerHasLiked ? "Unlike" : "Like"} · {formatCount(stats.likeCount)}
+        </button>
+      </div>
+
+      <div className="engagement-stats-row">
+        <span>{formatCount(stats.commentCount)} comments</span>
+        <span>{formatCount(stats.likeCount)} likes</span>
+        <span>{stats.likedBy.length > 0 ? `Recent likes: ${stats.likedBy.slice(0, 3).map((entry) => entry.actorName).join(", ")}` : "Be the first recent like."}</span>
+      </div>
+
+      {actionError ? <p className="engagement-error">{actionError}</p> : null}
+      {engagement.error ? <p className="engagement-error">{engagement.error}</p> : null}
+
+      <form className="engagement-form" onSubmit={handleSubmit}>
+        <div className="engagement-form-grid">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={authorName}
+            onChange={(event) => setAuthorName(event.target.value)}
+            maxLength={80}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email (optional)"
+            value={authorEmail}
+            onChange={(event) => setAuthorEmail(event.target.value)}
+            maxLength={160}
+          />
+        </div>
+        <textarea
+          placeholder="Write your comment here..."
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+          rows="5"
+          maxLength={2000}
+          required
+        ></textarea>
+        <button type="submit" className="engagement-submit-btn" disabled={busyAction === "comment"}>
+          {busyAction === "comment" ? "Posting..." : "Post Comment"}
+        </button>
+      </form>
+
+      <div className="engagement-comments">
+        {stats.comments.length === 0 ? (
+          <p className="engagement-empty-state">No recent comments yet. Start the conversation.</p>
+        ) : (
+          stats.comments.map((comment) => (
+            <article key={comment.id} className="engagement-comment-card">
+              <div className="engagement-comment-meta">
+                <strong>{comment.authorName}</strong>
+                <span>{formatCommentDate(comment.createdAt)}</span>
+              </div>
+              <p>{comment.message}</p>
+            </article>
+          ))
+        )}
+      </div>
+    </section>
+  );
+}
+
+function LikeButton({ entityType, entityId, engagement, className = "", showCount = true }) {
+  const stats = getEntityStats(engagement.statsMap, entityType, entityId);
+  const viewerHasLiked = stats.likedBy.some((entry) => entry.actorId === engagement.profile.actorId);
+  const [busy, setBusy] = useState(false);
+
+  async function handleClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    setBusy(true);
+
+    try {
+      await engagement.toggleLike({
+        entityType,
+        entityId,
+        actorName: engagement.profile.name || "Guest",
+      });
+    } catch {
+      // Shared engagement state already tracks request errors.
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className={`like-button${viewerHasLiked ? " is-active" : ""}${className ? ` ${className}` : ""}`}
+      onClick={handleClick}
+      disabled={busy}
+      aria-label={viewerHasLiked ? "Unlike" : "Like"}
+    >
+      <span className="like-button-heart">{viewerHasLiked ? "♥" : "♡"}</span>
+      {showCount ? <span className="like-button-count">{formatCount(stats.likeCount)}</span> : null}
+    </button>
+  );
+}
+
+function CommentsPanel({ entityType, entityId, engagement, title = "Comments" }) {
+  const stats = getEntityStats(engagement.statsMap, entityType, entityId);
+  const [authorName, setAuthorName] = useState(engagement.profile.name || "");
+  const [message, setMessage] = useState("");
+  const [busyAction, setBusyAction] = useState("");
+  const [actionError, setActionError] = useState("");
+
+  useEffect(() => {
+    setAuthorName(engagement.profile.name || "");
+  }, [engagement.profile.name]);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const trimmedName = authorName.trim();
+    const trimmedMessage = message.trim();
+    if (!trimmedName || !trimmedMessage) {
+      setActionError("Name and comment are both required.");
+      return;
+    }
+
+    setBusyAction("comment");
+    setActionError("");
+
+    try {
+      engagement.saveProfile({ name: trimmedName });
+      await engagement.createComment({
+        entityType,
+        entityId,
+        authorName: trimmedName,
+        authorEmail: "",
+        message: trimmedMessage,
+      });
+      setMessage("");
+    } catch (error) {
+      setActionError(error.message);
+    } finally {
+      setBusyAction("");
+    }
+  }
+
+  return (
+    <section className="engagement-stack">
+      <div className="engagement-panel engagement-panel-minimal">
+        <div className="engagement-header">
+          <h2>{title}</h2>
+          <span className="engagement-count">{formatCount(stats.commentCount)} comments</span>
+        </div>
+
+        {actionError ? <p className="engagement-error">{actionError}</p> : null}
+        {engagement.error ? <p className="engagement-error">{engagement.error}</p> : null}
+
+        <form className="engagement-form" onSubmit={handleSubmit}>
+          <div className="engagement-form-top">
+            <input
+              type="text"
+              placeholder="Your name"
+              value={authorName}
+              onChange={(event) => setAuthorName(event.target.value)}
+              maxLength={80}
+              required
+            />
+            <button type="submit" className="engagement-submit-btn" disabled={busyAction === "comment"}>
+              {busyAction === "comment" ? "Posting..." : "Comment"}
+            </button>
+          </div>
+          <textarea
+            placeholder="Write a comment..."
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            rows="3"
+            maxLength={2000}
+            required
+          ></textarea>
+        </form>
+      </div>
+
+      <section className="engagement-comments-section" aria-label={`Existing ${title.toLowerCase()}`}>
+        <div className="engagement-comments-section-header">
+          <h3>Existing Comments</h3>
+          <span className="engagement-count">{formatCount(stats.commentCount)} total</span>
+        </div>
+        <div className="engagement-comments">
+          {stats.comments.length === 0 ? (
+            <p className="engagement-empty-state">No comments yet.</p>
+          ) : (
+            stats.comments.map((comment) => (
+              <article key={comment.id} className="engagement-comment-card">
+                <div className="engagement-comment-meta">
+                  <strong>{comment.authorName}</strong>
+                  <span>{formatCommentDate(comment.createdAt)}</span>
+                </div>
+                <p>{comment.message}</p>
+              </article>
+            ))
+          )}
+        </div>
+      </section>
+    </section>
   );
 }
 
@@ -394,8 +820,12 @@ function getItemsPerView() {
   return 3;
 }
 
-function WorkCard({ card }) {
+function WorkCard({ card, stats, engagement, entityType = "article", entityId = card.slug }) {
   const navigateWithTransition = useTransitionNavigate();
+  const fallbackCommentCount = parseLooseCount(card.comments);
+  const fallbackLikeCount = parseLooseCount(card.likes);
+  const commentCount = stats ? stats.commentCount : fallbackCommentCount;
+  const likeCount = stats ? stats.likeCount : fallbackLikeCount;
 
   return (
     <div
@@ -403,6 +833,13 @@ function WorkCard({ card }) {
       data-post={card.slug}
       onClick={() => navigateWithTransition(`/${card.slug}`)}
     >
+      <LikeButton
+        entityType={entityType}
+        entityId={entityId}
+        engagement={engagement}
+        className="card-like-button"
+        showCount={false}
+      />
       <div className="blog-card-media">
         <img src={card.image} alt="Dexteritycoder featured post" />
       </div>
@@ -412,8 +849,8 @@ function WorkCard({ card }) {
         <p>{card.description}</p>
         <div className="blog-footer">
           <span className="views">{card.views}</span>
-          <span className="comments">{card.comments}</span>
-          <span className="like">{card.likes}</span>
+          <span className="comments">{formatCount(commentCount)} comments</span>
+          <span className="like">{formatCount(likeCount)} likes</span>
         </div>
       </div>
     </div>
@@ -434,7 +871,7 @@ function Shell({ siteData, footer = "full", children }) {
   );
 }
 
-function HomePage({ siteData }) {
+function HomePage({ siteData, engagement }) {
   usePageSetup("Dexteritycoder", "home-page");
 
   return (
@@ -442,7 +879,12 @@ function HomePage({ siteData }) {
       <Hero titleHtml={siteData.home.heroTitleHtml} />
       <section className="home-blog-grid">
         {siteData.home.works.map((card) => (
-          <WorkCard key={card.slug} card={card} />
+          <WorkCard
+            key={card.slug}
+            card={card}
+            stats={getEntityStats(engagement.statsMap, "article", card.slug)}
+            engagement={engagement}
+          />
         ))}
       </section>
       <div className="all_posts_btn">
@@ -457,7 +899,7 @@ function HomePage({ siteData }) {
   );
 }
 
-function WorksPage({ siteData }) {
+function WorksPage({ siteData, engagement }) {
   usePageSetup("Blog | Dexteritycoder", "home-page");
 
   const cards = siteData.home.works.map((card) => ({
@@ -472,14 +914,19 @@ function WorksPage({ siteData }) {
       <Hero titleHtml={siteData.works.listing.heroTitleHtml} />
       <section className="home-blog-grid">
         {cards.map((card) => (
-          <WorkCard key={card.slug} card={card} />
+          <WorkCard
+            key={card.slug}
+            card={card}
+            stats={getEntityStats(engagement.statsMap, "article", card.slug)}
+            engagement={engagement}
+          />
         ))}
       </section>
     </Shell>
   );
 }
 
-function WorkMarkdownPage({ siteData, slug, production = false }) {
+function WorkMarkdownPage({ siteData, slug, production = false, engagement }) {
   const page = siteData.works.pages[slug];
   const { data, error, loading } = useText(page.markdownPath);
   const [projects, setProjects] = useState([]);
@@ -526,6 +973,13 @@ function WorkMarkdownPage({ siteData, slug, production = false }) {
           <TransitionLink href={page.ctaHref}>
             <button className="call-to-blog-button">{page.ctaLabel}</button>
           </TransitionLink>
+          <div className="post-engagement-strip">
+            <LikeButton entityType="article" entityId={slug} engagement={engagement} className="detail-like-button" />
+            <span className="post-engagement-comments">
+              {formatCount(getEntityStats(engagement.statsMap, "article", slug).commentCount)} comments
+            </span>
+          </div>
+          <CommentsPanel entityType="article" entityId={slug} engagement={engagement} title="Article Comments" />
         </article>
         {production ? (
           <section className="production-projects-section" aria-label="Featured production projects">
@@ -544,6 +998,13 @@ function WorkMarkdownPage({ siteData, slug, production = false }) {
                     className="blog-card project-card"
                     onClick={() => navigateWithTransition(buildProjectRoute(repo))}
                   >
+                <LikeButton
+                  entityType="project"
+                  entityId={project.id}
+                  engagement={engagement}
+                  className="card-like-button"
+                  showCount={false}
+                />
                     <div className="blog-card-media">
                       <img src={project.image} alt={project.title} />
                     </div>
@@ -553,6 +1014,10 @@ function WorkMarkdownPage({ siteData, slug, production = false }) {
                       <p>{project.description}</p>
                       <div className="blog-footer">
                         <span className="views">View Details</span>
+                        <span className="comments">
+                          {formatCount(getEntityStats(engagement.statsMap, "project", project.id).commentCount)} comments
+                        </span>
+                        <span className="like">{formatCount(getEntityStats(engagement.statsMap, "project", project.id).likeCount)} likes</span>
                       </div>
                     </div>
                   </article>
@@ -646,7 +1111,7 @@ function DonatePage({ siteData }) {
   );
 }
 
-function BlogListPage({ siteData }) {
+function BlogListPage({ siteData, engagement }) {
   const { data, error, loading } = useJson("/BlogPosts/posts.json");
   const [search, setSearch] = useState("");
   const navigateWithTransition = useTransitionNavigate();
@@ -693,6 +1158,13 @@ function BlogListPage({ siteData }) {
                 data-blog={post.id}
                 onClick={() => navigateWithTransition(buildBlogRoute(post.id))}
               >
+                <LikeButton
+                  entityType="blog"
+                  entityId={post.id}
+                  engagement={engagement}
+                  className="card-like-button"
+                  showCount={false}
+                />
                 <div className="blog-card-media">
                   <img src={post.image} alt={post.title} />
                 </div>
@@ -702,8 +1174,10 @@ function BlogListPage({ siteData }) {
                   <p>{post.description}</p>
                   <div className="blog-footer">
                     <span className="views">{post.views} views</span>
-                    <span className="comments">{post.comments} comments</span>
-                    <span className="like">❤ {post.likes}</span>
+                    <span className="comments">
+                      {formatCount(getEntityStats(engagement.statsMap, "blog", post.id).commentCount || post.comments)} comments
+                    </span>
+                    <span className="like">{formatCount(getEntityStats(engagement.statsMap, "blog", post.id).likeCount || post.likes)} likes</span>
                   </div>
                 </div>
               </div>
@@ -714,7 +1188,7 @@ function BlogListPage({ siteData }) {
   );
 }
 
-function BlogDetailPage({ siteData }) {
+function BlogDetailPage({ siteData, engagement }) {
   const location = useLocation();
   const { blogId: blogIdParam } = useParams();
   const blogId = blogIdParam || new URLSearchParams(location.search).get("blog");
@@ -776,6 +1250,17 @@ function BlogDetailPage({ siteData }) {
           {error ? <section className="post-content"><p>{error.message}</p></section> : null}
           {!error && markdown ? <MarkdownContent markdown={markdown} /> : null}
           {!error && !markdown ? <section className="post-content"><p>Loading...</p></section> : null}
+          {blogId ? (
+            <>
+              <div className="post-engagement-strip">
+                <LikeButton entityType="blog" entityId={blogId} engagement={engagement} className="detail-like-button" />
+                <span className="post-engagement-comments">
+                  {formatCount(getEntityStats(engagement.statsMap, "blog", blogId).commentCount)} comments
+                </span>
+              </div>
+              <CommentsPanel entityType="blog" entityId={blogId} engagement={engagement} title="Blog Comments" />
+            </>
+          ) : null}
         </article>
       </main>
     </Shell>
@@ -837,7 +1322,7 @@ function FileIcon() {
   );
 }
 
-function ProjectDetailPage({ siteData }) {
+function ProjectDetailPage({ siteData, engagement }) {
   const location = useLocation();
   const { owner: ownerParam, repo: repoParam } = useParams();
   const repoQuery =
@@ -1034,6 +1519,27 @@ function ProjectDetailPage({ siteData }) {
                 : "<p class='repo-empty-state'>No documentation available for this project yet.</p>",
             }}
           ></div>
+          {repoQuery ? (
+            <>
+              <div className="post-engagement-strip">
+                <LikeButton
+                  entityType="project"
+                  entityId={state.project?.id || repoQuery}
+                  engagement={engagement}
+                  className="detail-like-button"
+                />
+                <span className="post-engagement-comments">
+                  {formatCount(getEntityStats(engagement.statsMap, "project", state.project?.id || repoQuery).commentCount)} comments
+                </span>
+              </div>
+              <CommentsPanel
+                entityType="project"
+                entityId={state.project?.id || repoQuery}
+                engagement={engagement}
+                title="Project Comments"
+              />
+            </>
+          ) : null}
         </section>
       </main>
     </Shell>
@@ -1058,22 +1564,31 @@ function LoadingScreen() {
   );
 }
 
-function AppRoutes({ siteData }) {
+function formatCommentDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "Just now";
+  }
+
+  return date.toLocaleString();
+}
+
+function AppRoutes({ siteData, engagement }) {
   return (
     <Routes>
-      <Route path="/" element={<HomePage siteData={siteData} />} />
+      <Route path="/" element={<HomePage siteData={siteData} engagement={engagement} />} />
       <Route path="/index.html" element={<Navigate to="/" replace />} />
-      <Route path="/works" element={<WorksPage siteData={siteData} />} />
-      <Route path="/production-projects" element={<WorkMarkdownPage siteData={siteData} slug="production-projects" production />} />
-      <Route path="/ai-machine-learning" element={<WorkMarkdownPage siteData={siteData} slug="ai-machine-learning" />} />
-      <Route path="/train-to-thoughts" element={<WorkMarkdownPage siteData={siteData} slug="train-to-thoughts" />} />
-      <Route path="/available-for-freelancing" element={<WorkMarkdownPage siteData={siteData} slug="available-for-freelancing" />} />
+      <Route path="/works" element={<WorksPage siteData={siteData} engagement={engagement} />} />
+      <Route path="/production-projects" element={<WorkMarkdownPage siteData={siteData} slug="production-projects" production engagement={engagement} />} />
+      <Route path="/ai-machine-learning" element={<WorkMarkdownPage siteData={siteData} slug="ai-machine-learning" engagement={engagement} />} />
+      <Route path="/train-to-thoughts" element={<WorkMarkdownPage siteData={siteData} slug="train-to-thoughts" engagement={engagement} />} />
+      <Route path="/available-for-freelancing" element={<WorkMarkdownPage siteData={siteData} slug="available-for-freelancing" engagement={engagement} />} />
       <Route path="/about" element={<AboutPage siteData={siteData} />} />
       <Route path="/contact" element={<ContactPage siteData={siteData} />} />
       <Route path="/donate" element={<DonatePage siteData={siteData} />} />
-      <Route path="/blog" element={<BlogListPage siteData={siteData} />} />
-      <Route path="/blog/:blogId" element={<BlogDetailPage siteData={siteData} />} />
-      <Route path="/project/:owner/:repo" element={<ProjectDetailPage siteData={siteData} />} />
+      <Route path="/blog" element={<BlogListPage siteData={siteData} engagement={engagement} />} />
+      <Route path="/blog/:blogId" element={<BlogDetailPage siteData={siteData} engagement={engagement} />} />
+      <Route path="/project/:owner/:repo" element={<ProjectDetailPage siteData={siteData} engagement={engagement} />} />
       <Route path="/pages/blog.html" element={<Navigate to="/works" replace />} />
       <Route path="/pages/production-projects.html" element={<Navigate to="/production-projects" replace />} />
       <Route path="/pages/ai-machine-learning.html" element={<Navigate to="/ai-machine-learning" replace />} />
@@ -1083,8 +1598,8 @@ function AppRoutes({ siteData }) {
       <Route path="/pages/contact.html" element={<Navigate to="/contact" replace />} />
       <Route path="/pages/donate.html" element={<Navigate to="/donate" replace />} />
       <Route path="/Blogs/blog-list.html" element={<Navigate to="/blog" replace />} />
-      <Route path="/Blogs/blog-detail.html" element={<BlogDetailPage siteData={siteData} />} />
-      <Route path="/pages/project-detail.html" element={<ProjectDetailPage siteData={siteData} />} />
+      <Route path="/Blogs/blog-detail.html" element={<BlogDetailPage siteData={siteData} engagement={engagement} />} />
+      <Route path="/pages/project-detail.html" element={<ProjectDetailPage siteData={siteData} engagement={engagement} />} />
       <Route path="/pages/post1.html" element={<Navigate to="/production-projects" replace />} />
       <Route path="/pages/post2.html" element={<Navigate to="/ai-machine-learning" replace />} />
       <Route path="/pages/post3.html" element={<Navigate to="/train-to-thoughts" replace />} />
@@ -1096,6 +1611,7 @@ function AppRoutes({ siteData }) {
 
 export default function App() {
   const { data, error, loading } = useJson("/data/site-content.json");
+  const engagement = useEngagement();
 
   if (loading) {
     return <LoadingScreen />;
@@ -1109,5 +1625,5 @@ export default function App() {
     );
   }
 
-  return <AppRoutes siteData={data} />;
+  return <AppRoutes siteData={data} engagement={engagement} />;
 }

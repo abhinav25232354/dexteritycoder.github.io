@@ -351,6 +351,10 @@ p {
     line-height: 1.7;
 }
 
+.blog-card {
+    position: relative;
+}
+
 .blog-footer {
     display: flex;
     flex-wrap: wrap;
@@ -1690,4 +1694,254 @@ form p {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
     background: #116dff;
     color: white;
+}
+
+.engagement-panel{
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    background: rgba(14, 14, 14, 0.82);
+    backdrop-filter: blur(10px);
+}
+
+.engagement-stack{
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.engagement-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.engagement-header h2{
+    margin: 0 0 0.35rem;
+}
+
+.engagement-header p,
+.engagement-stats-row span,
+.engagement-comment-meta span,
+.engagement-empty-state{
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.engagement-like-btn,
+.engagement-submit-btn{
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.engagement-like-btn{
+    padding: 0.85rem 1.2rem;
+    white-space: nowrap;
+}
+
+.engagement-like-btn.is-active{
+    background: rgba(255, 83, 112, 0.24);
+    border-color: rgba(255, 83, 112, 0.5);
+}
+
+.engagement-submit-btn{
+    padding: 0.9rem 1.3rem;
+}
+
+.engagement-like-btn:hover,
+.engagement-submit-btn:hover{
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.engagement-stats-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.engagement-form{
+    display: grid;
+    gap: 0.85rem;
+}
+
+.engagement-form-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.engagement-form input,
+.engagement-form textarea{
+    width: 100%;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.engagement-form textarea{
+    resize: vertical;
+    min-height: 140px;
+}
+
+.engagement-error{
+    color: #ff9cae;
+    margin: 0.35rem 0 0.85rem;
+}
+
+.engagement-comments{
+    display: grid;
+    gap: 0.9rem;
+}
+
+.engagement-comments-section{
+    padding: 1.1rem 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.engagement-comments-section-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.engagement-comments-section-header h3{
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.engagement-comment-card{
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.engagement-comment-card p{
+    margin: 0.6rem 0 0;
+    white-space: pre-wrap;
+}
+
+.engagement-comment-meta{
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.engagement-panel-minimal{
+    margin-top: 0;
+    padding: 1.1rem 1.15rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: none;
+}
+
+.engagement-count{
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.92rem;
+}
+
+.engagement-form-top{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+}
+
+.engagement-panel-minimal .engagement-header h2{
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.engagement-panel-minimal .engagement-form textarea{
+    min-height: 88px;
+}
+
+.like-button{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(15, 15, 15, 0.72);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.like-button:hover{
+    transform: translateY(-1px);
+    background: rgba(26, 26, 26, 0.92);
+}
+
+.like-button.is-active{
+    border-color: rgba(255, 99, 132, 0.5);
+    background: rgba(255, 85, 117, 0.16);
+}
+
+.like-button-heart{
+    font-size: 1rem;
+    line-height: 1;
+    color: #ff8ea2;
+}
+
+.like-button-count{
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.card-like-button{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    padding: 0.5rem 0.72rem;
+}
+
+.detail-like-button{
+    padding: 0.72rem 1rem;
+}
+
+.post-engagement-strip{
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.1rem;
+}
+
+.post-engagement-comments{
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+    .engagement-header,
+    .engagement-comment-meta,
+    .engagement-comments-section-header{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .engagement-form-top{
+        grid-template-columns: 1fr;
+    }
+
+    .engagement-form-grid{
+        grid-template-columns: 1fr;
+    }
 }
