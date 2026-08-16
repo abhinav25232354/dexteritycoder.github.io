@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-16T10:43:13.125Z",
+  "updatedAt": "2026-08-16T11:02:07.183Z",
   "entities": {
     "blog:How to Make our own Jarvis with the help of python": {
       "count": 0
@@ -48,6 +48,9 @@
       "count": 0
     },
     "page:contact": {
+      "count": 0
+    },
+    "page:works": {
       "count": 0
     }
   }
