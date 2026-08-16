@@ -3187,6 +3187,9 @@ form p {
 }
 
 .freelancing-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 16px;
@@ -3200,6 +3203,7 @@ form p {
     line-height: 1.2;
     white-space: nowrap;
     cursor: pointer;
+    text-decoration: none;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 

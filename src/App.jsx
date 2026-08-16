@@ -2728,9 +2728,14 @@ function FreelancingActionGrid() {
               <button type="button" className="freelancing-cta-button" onClick={() => openGigModal()}>
                 hire me here
               </button>
-              <button type="button" className="freelancing-cta-button freelancing-cta-button-secondary" onClick={() => openGigModal("portfolio-site")}>
-                preview top gig
-              </button>
+              <a
+                href="https://www.fiverr.com/dexteritycoder_"
+                className="freelancing-cta-button freelancing-cta-button-secondary"
+                target="_blank"
+                rel="noreferrer"
+              >
+                hire me on fiverr
+              </a>
             </div>
           </div>
         </div>
