@@ -2535,32 +2535,214 @@ function MarkdownContent({ markdown }) {
   return <section className="post-content" dangerouslySetInnerHTML={{ __html: markdownToHtml(markdown) }}></section>;
 }
 
-function FreelancingActionGrid() {
+const FREELANCING_GIGS = [
+  {
+    id: "portfolio-site",
+    category: "Frontend Build",
+    title: "Portfolio Website Build",
+    price: "Starting at $120",
+    turnaround: "3 to 5 days",
+    summary: "A polished personal or business portfolio with responsive sections, contact flow, and clean deployment.",
+    deliverables: [
+      "Custom landing page and supporting sections",
+      "Mobile responsive layout",
+      "Deployment help for Vercel or GitHub Pages",
+    ],
+    details:
+      "Best for developers, freelancers, creators, and small businesses that want a fast modern web presence without a bloated setup. I focus on readability, strong layout, and production-ready structure.",
+  },
+  {
+    id: "react-ui",
+    category: "React UI",
+    title: "React Page or Component Development",
+    price: "Starting at $90",
+    turnaround: "2 to 4 days",
+    summary: "Build or improve a React page, feature section, dashboard panel, or reusable UI block.",
+    deliverables: [
+      "Reusable React components",
+      "State and interaction wiring",
+      "Styling matched to your existing site",
+    ],
+    details:
+      "Useful when you already have a project and need a specific page or feature implemented cleanly. I can work inside your current codebase and preserve the visual language you already use.",
+  },
+  {
+    id: "bug-fixing",
+    category: "Fixes",
+    title: "Bug Fixing and Debugging Session",
+    price: "Starting at $60",
+    turnaround: "1 to 2 days",
+    summary: "Track down frontend issues, routing problems, broken forms, analytics mistakes, or UI regressions.",
+    deliverables: [
+      "Root cause analysis",
+      "Targeted fix in your codebase",
+      "Short explanation of what broke and what changed",
+    ],
+    details:
+      "A good fit when something works partly but not reliably. I look for implementation issues, blockers, and final verification so the fix is not superficial.",
+  },
+  {
+    id: "content-page",
+    category: "Content Setup",
+    title: "Service, Blog, or Landing Page Setup",
+    price: "Starting at $75",
+    turnaround: "2 to 3 days",
+    summary: "Turn your draft text or rough idea into a structured page with strong hierarchy and calls to action.",
+    deliverables: [
+      "Structured content layout",
+      "CTA sections and readability improvements",
+      "Basic SEO-friendly headings and metadata guidance",
+    ],
+    details:
+      "Ideal if you already know what you want to say but need help making the page feel professional, clear, and conversion-friendly.",
+  },
+];
+
+function FreelancingGigModal({ open, onClose, gigs, selectedGigId, onSelectGig }) {
+  const selectedGig = gigs.find((gig) => gig.id === selectedGigId) || gigs[0];
+
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose, open]);
+
+  if (!open || !selectedGig) {
+    return null;
+  }
+
   return (
-    <section className="freelancing-grid" aria-label="Freelancing actions">
-      <div className="blog-card freelancing-content-card">
-        <div className="blog-content">
-          <span className="blog-category">Freelancing</span>
-          <h3>Project details coming here</h3>
-          <p>Send me the content you want on this page and I will paste it into this section next.</p>
+    <div className="auth-modal-backdrop" role="dialog" aria-modal="true" aria-label="Freelancing gigs" onClick={onClose}>
+      <div className="auth-modal-card freelancing-modal-card" onClick={(event) => event.stopPropagation()}>
+        <div className="freelancing-modal-header">
+          <div>
+            <p className="freelancing-modal-eyebrow">Hire Me Here</p>
+            <h2>Browse available gigs</h2>
+            <p className="freelancing-modal-copy">
+              Open any gig below to read what is included, the expected turnaround, and the kind of work it fits best.
+            </p>
+          </div>
+          <button type="button" className="gallery-modal-close freelancing-modal-close" onClick={onClose} aria-label="Close gigs modal">
+            ×
+          </button>
+        </div>
+        <div className="freelancing-modal-layout">
+          <aside className="freelancing-gig-list" aria-label="Gig list">
+            {gigs.map((gig) => (
+              <button
+                key={gig.id}
+                type="button"
+                className={`freelancing-gig-list-item${selectedGig.id === gig.id ? " is-active" : ""}`}
+                onClick={() => onSelectGig(gig.id)}
+              >
+                <span className="freelancing-gig-list-category">{gig.category}</span>
+                <strong>{gig.title}</strong>
+                <span className="freelancing-gig-list-price">{gig.price}</span>
+              </button>
+            ))}
+          </aside>
+          <section className="freelancing-gig-detail" aria-live="polite">
+            <span className="blog-category">{selectedGig.category}</span>
+            <h3>{selectedGig.title}</h3>
+            <p className="freelancing-gig-summary">{selectedGig.summary}</p>
+            <div className="freelancing-gig-meta">
+              <div>
+                <span>Starting Price</span>
+                <strong>{selectedGig.price}</strong>
+              </div>
+              <div>
+                <span>Turnaround</span>
+                <strong>{selectedGig.turnaround}</strong>
+              </div>
+            </div>
+            <p>{selectedGig.details}</p>
+            <div className="freelancing-gig-deliverables">
+              <strong>What you get</strong>
+              <ul>
+                {selectedGig.deliverables.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="auth-modal-actions freelancing-modal-actions">
+              <TransitionLink href="/contact" style={{ textDecoration: "none" }}>
+                <button type="button" className="freelancing-cta-button">Continue to contact</button>
+              </TransitionLink>
+              <button type="button" className="freelancing-cta-button freelancing-cta-button-secondary" onClick={onClose}>
+                Keep browsing later
+              </button>
+            </div>
+          </section>
         </div>
       </div>
-      <div className="blog-card freelancing-cta-card">
-        <div className="blog-content">
-          <span className="blog-category">Hire Me</span>
-          <h3>Choose the way you want to start</h3>
-          <p>Use the direct site contact option now, and we can swap in your Fiverr profile link as soon as you share it.</p>
-          <div className="freelancing-cta-buttons">
-            <TransitionLink href="/contact" style={{ textDecoration: "none" }}>
-              <button className="freelancing-cta-button">hire me here</button>
-            </TransitionLink>
-            <TransitionLink href="#" style={{ textDecoration: "none" }}>
-              <button className="freelancing-cta-button freelancing-cta-button-secondary">hire me on fiverr</button>
-            </TransitionLink>
+    </div>
+  );
+}
+
+function FreelancingActionGrid() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedGigId, setSelectedGigId] = useState(FREELANCING_GIGS[0].id);
+
+  function openGigModal(gigId = FREELANCING_GIGS[0].id) {
+    setSelectedGigId(gigId);
+    setModalOpen(true);
+  }
+
+  return (
+    <>
+      <section className="freelancing-grid" aria-label="Freelancing actions">
+        <div className="blog-card freelancing-content-card">
+          <div className="blog-content">
+            <span className="blog-category">Freelancing</span>
+            <h3>Choose a service before you message me</h3>
+            <p>
+              Open the gigs modal to browse the services I provide, compare what each offer includes, and decide the best fit before reaching out.
+            </p>
+            <div className="freelancing-content-actions">
+              <button type="button" className="freelancing-cta-button freelancing-view-gigs-button" onClick={() => openGigModal()}>
+                view gigs
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+        <div className="blog-card freelancing-cta-card">
+          <div className="blog-content">
+            <span className="blog-category">Hire Me</span>
+            <h3>Choose the way you want to start</h3>
+            <p>Use the direct site option to open your service list in a modal, then continue to contact once you know which gig fits your project.</p>
+            <div className="freelancing-cta-buttons">
+              <button type="button" className="freelancing-cta-button" onClick={() => openGigModal()}>
+                hire me here
+              </button>
+              <button type="button" className="freelancing-cta-button freelancing-cta-button-secondary" onClick={() => openGigModal("portfolio-site")}>
+                preview top gig
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <FreelancingGigModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        gigs={FREELANCING_GIGS}
+        selectedGigId={selectedGigId}
+        onSelectGig={setSelectedGigId}
+      />
+    </>
   );
 }
 

@@ -1032,17 +1032,23 @@ body.menu-open .shell-content {
     position: fixed;
     inset: 0;
     display: grid;
-    place-items: center;
+    align-items: start;
+    justify-items: center;
     padding: 24px;
+    padding-top: calc(var(--nav-height) + 16px);
     background: rgba(6, 6, 6, 0.72);
     backdrop-filter: blur(14px);
     z-index: 50;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .auth-modal-card {
+    position: relative;
+    z-index: 1;
     width: 95%;
     max-width: calc(100vw - 48px);
-    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - var(--nav-height) - 32px);
     overflow: auto;
     padding: 24px;
     box-sizing: border-box;
@@ -1050,6 +1056,10 @@ body.menu-open .shell-content {
     background: #111;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: var(--surface-shadow);
+}
+
+body.modal-open {
+    overflow: hidden;
 }
 
 .auth-modal-card h2 {
@@ -3100,6 +3110,56 @@ form p {
     line-height: 1.8;
 }
 
+.freelancing-content-actions {
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.freelancing-view-gigs-button {
+    max-width: 220px;
+}
+
+.freelancing-gig-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.freelancing-gig-preview {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary-text);
+    padding: 16px 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.freelancing-gig-preview span {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--secondary-text);
+    margin-bottom: 10px;
+}
+
+.freelancing-gig-preview strong {
+    display: block;
+    line-height: 1.45;
+    font-size: 0.94rem;
+}
+
+.freelancing-gig-preview:hover,
+.freelancing-gig-preview:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(17, 109, 255, 0.42);
+    background: rgba(17, 109, 255, 0.09);
+}
+
 .freelancing-cta-card {
     background:
         radial-gradient(circle at top right, rgba(17, 109, 255, 0.16), transparent 34%),
@@ -3161,6 +3221,186 @@ form p {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+}
+
+.freelancing-modal-card {
+    width: min(1120px, calc(100vw - 48px));
+    padding: 28px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.freelancing-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.freelancing-modal-eyebrow {
+    margin: 0 0 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.freelancing-modal-copy {
+    max-width: 620px;
+    color: var(--secondary-text);
+    line-height: 1.75;
+    margin-bottom: 0;
+}
+
+.freelancing-modal-close {
+    position: static;
+    flex-shrink: 0;
+}
+
+.freelancing-modal-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+    min-height: 0;
+}
+
+.freelancing-gig-list {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+}
+
+.freelancing-gig-list-item {
+    width: 100%;
+    text-align: left;
+    padding: 16px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--primary-text);
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.freelancing-gig-list-item strong,
+.freelancing-gig-list-price,
+.freelancing-gig-list-category {
+    display: block;
+}
+
+.freelancing-gig-list-category {
+    margin-bottom: 8px;
+    color: var(--secondary-text);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.freelancing-gig-list-price {
+    margin-top: 10px;
+    color: #9ac0ff;
+    font-size: 0.94rem;
+}
+
+.freelancing-gig-list-item:hover,
+.freelancing-gig-list-item:focus-visible,
+.freelancing-gig-list-item.is-active {
+    transform: translateY(-2px);
+    border-color: rgba(17, 109, 255, 0.46);
+    background: rgba(17, 109, 255, 0.1);
+}
+
+.freelancing-gig-detail {
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        radial-gradient(circle at top right, rgba(17, 109, 255, 0.12), transparent 36%),
+        rgba(255, 255, 255, 0.02);
+    padding: 24px;
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 901px) {
+    .freelancing-modal-card {
+        height: min(760px, calc(100dvh - var(--nav-height) - 48px));
+        overflow: hidden;
+    }
+
+    .freelancing-modal-layout {
+        flex: 1 1 auto;
+        align-items: stretch;
+        min-height: 0;
+    }
+
+    .freelancing-gig-list {
+        align-self: start;
+        padding-top: 10px;
+        overflow: hidden;
+    }
+
+    .freelancing-gig-detail {
+        min-height: 0;
+        overflow-y: auto;
+    }
+}
+
+.freelancing-gig-detail h3 {
+    margin-top: 14px;
+    margin-bottom: 12px;
+    font-size: clamp(1.5rem, 0.9vw + 1.2rem, 2rem);
+}
+
+.freelancing-gig-summary {
+    color: var(--primary-text);
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+.freelancing-gig-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 22px 0;
+}
+
+.freelancing-gig-meta div {
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.freelancing-gig-meta span {
+    display: block;
+    color: var(--secondary-text);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.freelancing-gig-deliverables {
+    margin-top: 20px;
+}
+
+.freelancing-gig-deliverables strong {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.freelancing-gig-deliverables ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--secondary-text);
+    line-height: 1.8;
+}
+
+.freelancing-modal-actions {
+    margin-top: 28px;
+    flex-wrap: wrap;
 }
 
 .engagement-panel{
@@ -3515,6 +3755,55 @@ form p {
 
     .freelancing-cta-buttons {
         grid-template-columns: 1fr;
-        width: max-content;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .freelancing-gig-preview-grid,
+    .freelancing-modal-layout,
+    .freelancing-gig-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .freelancing-modal-card {
+        padding: 22px;
+        height: auto;
+    }
+
+    .freelancing-modal-header {
+        margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 680px) {
+    .auth-modal-backdrop {
+        padding: 12px;
+        padding-top: calc(var(--nav-height) + 10px);
+    }
+
+    .auth-modal-card {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100dvh - var(--nav-height) - 20px);
+        border-radius: 20px;
+    }
+
+    .freelancing-modal-card {
+        padding: 18px;
+        margin-bottom: 10px;
+        height: auto;
+    }
+
+    .freelancing-modal-header {
+        gap: 10px;
+    }
+
+    .freelancing-modal-copy,
+    .freelancing-gig-summary,
+    .freelancing-gig-deliverables ul {
+        line-height: 1.65;
     }
 }
