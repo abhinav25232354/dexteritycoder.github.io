@@ -2535,71 +2535,110 @@ function MarkdownContent({ markdown }) {
   return <section className="post-content" dangerouslySetInnerHTML={{ __html: markdownToHtml(markdown) }}></section>;
 }
 
-const FREELANCING_GIGS = [
-  {
-    id: "portfolio-site",
-    category: "Frontend Build",
-    title: "Portfolio Website Build",
-    price: "Starting at $120",
-    turnaround: "3 to 5 days",
-    summary: "A polished personal or business portfolio with responsive sections, contact flow, and clean deployment.",
-    deliverables: [
-      "Custom landing page and supporting sections",
-      "Mobile responsive layout",
-      "Deployment help for Vercel or GitHub Pages",
-    ],
-    details:
-      "Best for developers, freelancers, creators, and small businesses that want a fast modern web presence without a bloated setup. I focus on readability, strong layout, and production-ready structure.",
-  },
-  {
-    id: "react-ui",
-    category: "React UI",
-    title: "React Page or Component Development",
-    price: "Starting at $90",
-    turnaround: "2 to 4 days",
-    summary: "Build or improve a React page, feature section, dashboard panel, or reusable UI block.",
-    deliverables: [
-      "Reusable React components",
-      "State and interaction wiring",
-      "Styling matched to your existing site",
-    ],
-    details:
-      "Useful when you already have a project and need a specific page or feature implemented cleanly. I can work inside your current codebase and preserve the visual language you already use.",
-  },
-  {
-    id: "bug-fixing",
-    category: "Fixes",
-    title: "Bug Fixing and Debugging Session",
-    price: "Starting at $60",
-    turnaround: "1 to 2 days",
-    summary: "Track down frontend issues, routing problems, broken forms, analytics mistakes, or UI regressions.",
-    deliverables: [
-      "Root cause analysis",
-      "Targeted fix in your codebase",
-      "Short explanation of what broke and what changed",
-    ],
-    details:
-      "A good fit when something works partly but not reliably. I look for implementation issues, blockers, and final verification so the fix is not superficial.",
-  },
-  {
-    id: "content-page",
-    category: "Content Setup",
-    title: "Service, Blog, or Landing Page Setup",
-    price: "Starting at $75",
-    turnaround: "2 to 3 days",
-    summary: "Turn your draft text or rough idea into a structured page with strong hierarchy and calls to action.",
-    deliverables: [
-      "Structured content layout",
-      "CTA sections and readability improvements",
-      "Basic SEO-friendly headings and metadata guidance",
-    ],
-    details:
-      "Ideal if you already know what you want to say but need help making the page feel professional, clear, and conversion-friendly.",
-  },
-];
+const FREELANCING_GIG = {
+  title: "I will make high performing modern website for your business",
+  category: "Business Website",
+  images: ["/gigs/gig-image-1.png", "/gigs/gig-image-2.png", "/gigs/gig-image-3.png"],
+  about: [
+    "I build modern, fast, and high performing websites that help your business grow online. Whether you need a simple one page site or a full online store, I create clean designs that work well on mobile and desktop and load quickly for a better user experience.",
+    "I focus on real, functional websites, not just templates. Every project includes speed optimization, proper hosting setup, and a design built around your brand and goals. If you need e-commerce, payment integration, or email opt-in forms connected to an auto-responder, I can set that up too.",
+    "I treat every project like it is my own business, because I run one myself. Let's build something that actually performs, not just something that looks good.",
+  ],
+  websiteType: "Business",
+  languages: ["HTML & CSS", "Python", "React", "Tailwind CSS", "Node.js"],
+  features: [
+    "Payment",
+    "Social media",
+    "Video",
+    "Form",
+    "Map",
+    "FAQ",
+    "Gallery",
+    "Landing page",
+    "User Authentication",
+    "Admin Panel",
+  ],
+  plans: [
+    {
+      id: "basic",
+      label: "Basic",
+      name: "Starter Site",
+      price: "₹8,015.55",
+      summary: "A sleek, single-page responsive website to establish your online presence fast.",
+      delivery: "3-day delivery",
+      revisions: "1 Revision",
+      included: [
+        "Functional website",
+        "1 page",
+        "Content upload",
+        "2 plugins/extensions",
+        "Speed optimization",
+        "Hosting setup",
+        "Social media icons",
+      ],
+      excluded: [
+        "E-commerce functionality",
+        "10 products",
+        "Payment Integration",
+        "Opt-in form",
+        "Autoresponder integration",
+      ],
+    },
+    {
+      id: "standard",
+      label: "Standard",
+      name: "Growth Site",
+      price: "₹12,023.33",
+      summary: "A multi-page, SEO-optimized website with custom design built to convert visitors into customers.",
+      delivery: "7-day delivery",
+      revisions: "3 Revisions",
+      included: [
+        "Functional website",
+        "4 pages",
+        "Content upload",
+        "4 plugins/extensions",
+        "E-commerce functionality",
+        "10 products",
+        "Opt-in form",
+        "Speed optimization",
+        "Hosting setup",
+        "Social media icons",
+      ],
+      excluded: ["Payment Integration", "Autoresponder integration"],
+    },
+    {
+      id: "premium",
+      label: "Premium",
+      name: "Pro Website",
+      price: "₹25,048.60",
+      summary: "A fully custom, high-performance website with advanced features & animations.",
+      delivery: "10-day delivery",
+      revisions: "Unlimited Revisions",
+      included: [
+        "Functional website",
+        "10 pages",
+        "Content upload",
+        "6 plugins/extensions",
+        "E-commerce functionality",
+        "30 products",
+        "Payment Integration",
+        "Opt-in form",
+        "Autoresponder integration",
+        "Speed optimization",
+        "Hosting setup",
+        "Social media icons",
+      ],
+      excluded: [],
+    },
+  ],
+};
 
-function FreelancingGigModal({ open, onClose, gigs, selectedGigId, onSelectGig }) {
-  const selectedGig = gigs.find((gig) => gig.id === selectedGigId) || gigs[0];
+function FreelancingGigModal({ open, onClose }) {
+  const [selectedPlanId, setSelectedPlanId] = useState(FREELANCING_GIG.plans[0].id);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(-1);
+  const selectedPlan =
+    FREELANCING_GIG.plans.find((plan) => plan.id === selectedPlanId) || FREELANCING_GIG.plans[0];
 
   useEffect(() => {
     if (!open) {
@@ -2621,19 +2660,56 @@ function FreelancingGigModal({ open, onClose, gigs, selectedGigId, onSelectGig }
     };
   }, [onClose, open]);
 
-  if (!open || !selectedGig) {
+  useEffect(() => {
+    if (!open) {
+      setSelectedPlanId(FREELANCING_GIG.plans[0].id);
+      setSelectedImageIndex(0);
+      setActiveGalleryIndex(-1);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (activeGalleryIndex < 0) {
+      return undefined;
+    }
+
+    function handleGalleryKeyDown(event) {
+      if (event.key === "Escape") {
+        setActiveGalleryIndex(-1);
+      } else if (event.key === "ArrowLeft") {
+        setActiveGalleryIndex((index) => (index <= 0 ? FREELANCING_GIG.images.length - 1 : index - 1));
+      } else if (event.key === "ArrowRight") {
+        setActiveGalleryIndex((index) => (index >= FREELANCING_GIG.images.length - 1 ? 0 : index + 1));
+      }
+    }
+
+    window.addEventListener("keydown", handleGalleryKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleGalleryKeyDown);
+    };
+  }, [activeGalleryIndex]);
+
+  function showPreviousGalleryImage() {
+    setActiveGalleryIndex((index) => (index <= 0 ? FREELANCING_GIG.images.length - 1 : index - 1));
+  }
+
+  function showNextGalleryImage() {
+    setActiveGalleryIndex((index) => (index >= FREELANCING_GIG.images.length - 1 ? 0 : index + 1));
+  }
+
+  if (!open) {
     return null;
   }
 
   return (
-    <div className="auth-modal-backdrop" role="dialog" aria-modal="true" aria-label="Freelancing gigs" onClick={onClose}>
+    <div className="auth-modal-backdrop" role="dialog" aria-modal="true" aria-label="Freelancing gig" onClick={onClose}>
       <div className="auth-modal-card freelancing-modal-card" onClick={(event) => event.stopPropagation()}>
         <div className="freelancing-modal-header">
           <div>
             <p className="freelancing-modal-eyebrow">Hire Me Here</p>
-            <h2>Browse available gigs</h2>
+            <h2>{FREELANCING_GIG.title}</h2>
             <p className="freelancing-modal-copy">
-              Open any gig below to read what is included, the expected turnaround, and the kind of work it fits best.
+              High performing business website service with modern execution, clean brand presentation, and conversion-ready structure.
             </p>
           </div>
           <button type="button" className="gallery-modal-close freelancing-modal-close" onClick={onClose} aria-label="Close gigs modal">
@@ -2641,53 +2717,162 @@ function FreelancingGigModal({ open, onClose, gigs, selectedGigId, onSelectGig }
           </button>
         </div>
         <div className="freelancing-modal-layout">
-          <aside className="freelancing-gig-list" aria-label="Gig list">
-            {gigs.map((gig) => (
-              <button
-                key={gig.id}
-                type="button"
-                className={`freelancing-gig-list-item${selectedGig.id === gig.id ? " is-active" : ""}`}
-                onClick={() => onSelectGig(gig.id)}
-              >
-                <span className="freelancing-gig-list-category">{gig.category}</span>
-                <strong>{gig.title}</strong>
-                <span className="freelancing-gig-list-price">{gig.price}</span>
-              </button>
-            ))}
+          <aside className="freelancing-gig-media" aria-label="Gig reference images">
+            <button
+              type="button"
+              className="freelancing-gig-hero-shot"
+              onClick={() => setActiveGalleryIndex(selectedImageIndex)}
+              aria-label={`Open gig image ${selectedImageIndex + 1} of ${FREELANCING_GIG.images.length}`}
+            >
+              <img
+                src={FREELANCING_GIG.images[selectedImageIndex]}
+                alt={`${FREELANCING_GIG.title} reference ${selectedImageIndex + 1}`}
+              />
+            </button>
+            <div className="freelancing-gig-thumbs">
+              {FREELANCING_GIG.images.map((image, index) => (
+                <button
+                  key={image}
+                  type="button"
+                  className={`freelancing-gig-thumb${selectedImageIndex === index ? " is-active" : ""}`}
+                  onClick={() => setSelectedImageIndex(index)}
+                >
+                  <img src={image} alt={`Gig preview ${index + 1}`} />
+                </button>
+              ))}
+            </div>
           </aside>
           <section className="freelancing-gig-detail" aria-live="polite">
-            <span className="blog-category">{selectedGig.category}</span>
-            <h3>{selectedGig.title}</h3>
-            <p className="freelancing-gig-summary">{selectedGig.summary}</p>
-            <div className="freelancing-gig-meta">
+            <div className="freelancing-gig-topline">
+              <span className="blog-category">{FREELANCING_GIG.category}</span>
+              <a href="https://www.fiverr.com/dexteritycoder_" className="freelancing-inline-link" target="_blank" rel="noreferrer">
+                Open on Fiverr
+              </a>
+            </div>
+
+            <div className="freelancing-gig-section">
+              <h3>About this gig</h3>
+              {FREELANCING_GIG.about.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+
+            <div className="freelancing-gig-facts">
               <div>
-                <span>Starting Price</span>
-                <strong>{selectedGig.price}</strong>
+                <span>Website type</span>
+                <strong>{FREELANCING_GIG.websiteType}</strong>
               </div>
               <div>
-                <span>Turnaround</span>
-                <strong>{selectedGig.turnaround}</strong>
+                <span>Programming language</span>
+                <strong>{FREELANCING_GIG.languages.join(" • ")}</strong>
               </div>
             </div>
-            <p>{selectedGig.details}</p>
-            <div className="freelancing-gig-deliverables">
-              <strong>What you get</strong>
-              <ul>
-                {selectedGig.deliverables.map((item) => (
-                  <li key={item}>{item}</li>
+
+            <div className="freelancing-gig-section">
+              <h3>Website features</h3>
+              <div className="freelancing-feature-grid">
+                {FREELANCING_GIG.features.map((feature) => (
+                  <span key={feature} className="freelancing-feature-pill">{feature}</span>
                 ))}
-              </ul>
+              </div>
             </div>
+
+            <div className="freelancing-gig-section">
+              <h3>Plans</h3>
+              <div className="freelancing-plan-tabs" role="tablist" aria-label="Gig plans">
+                {FREELANCING_GIG.plans.map((plan) => (
+                  <button
+                    key={plan.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={selectedPlan.id === plan.id}
+                    className={`freelancing-plan-tab${selectedPlan.id === plan.id ? " is-active" : ""}`}
+                    onClick={() => setSelectedPlanId(plan.id)}
+                  >
+                    {plan.label}
+                  </button>
+                ))}
+              </div>
+              <div className="freelancing-plan-card">
+                <h4>{selectedPlan.name}</h4>
+                <div className="freelancing-plan-price">{selectedPlan.price}</div>
+                <p className="freelancing-plan-summary">{selectedPlan.summary}</p>
+                <div className="freelancing-plan-meta">
+                  <span>{selectedPlan.delivery}</span>
+                  <span>{selectedPlan.revisions}</span>
+                </div>
+                <div className="freelancing-plan-includes">
+                  <strong>What's Included</strong>
+                  <ul>
+                    {selectedPlan.included.map((item) => (
+                      <li key={item} className="is-included">{item}</li>
+                    ))}
+                    {selectedPlan.excluded.map((item) => (
+                      <li key={item} className="is-excluded">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div className="auth-modal-actions freelancing-modal-actions">
               <TransitionLink href="/contact" style={{ textDecoration: "none" }}>
                 <button type="button" className="freelancing-cta-button">Continue to contact</button>
               </TransitionLink>
-              <button type="button" className="freelancing-cta-button freelancing-cta-button-secondary" onClick={onClose}>
-                Keep browsing later
-              </button>
+              <a
+                href="https://www.fiverr.com/dexteritycoder_"
+                className="freelancing-cta-button freelancing-cta-button-secondary"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Hire me on Fiverr
+              </a>
             </div>
           </section>
         </div>
+        {activeGalleryIndex >= 0 ? (
+          <div
+            className="gallery-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Gig image viewer"
+            onClick={() => setActiveGalleryIndex(-1)}
+          >
+            <div className="gallery-modal-inner" onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                className="gallery-modal-close"
+                aria-label="Close image viewer"
+                onClick={() => setActiveGalleryIndex(-1)}
+              >
+                x
+              </button>
+              <button
+                type="button"
+                className="gallery-modal-nav left"
+                aria-label="Previous image"
+                onClick={showPreviousGalleryImage}
+              >
+                ‹
+              </button>
+              <figure className="gallery-modal-figure">
+                <img
+                  src={FREELANCING_GIG.images[activeGalleryIndex]}
+                  alt={`${FREELANCING_GIG.title} gallery image ${activeGalleryIndex + 1}`}
+                />
+                <figcaption>{`Reference ${activeGalleryIndex + 1} of ${FREELANCING_GIG.images.length}`}</figcaption>
+              </figure>
+              <button
+                type="button"
+                className="gallery-modal-nav right"
+                aria-label="Next image"
+                onClick={showNextGalleryImage}
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -2695,12 +2880,6 @@ function FreelancingGigModal({ open, onClose, gigs, selectedGigId, onSelectGig }
 
 function FreelancingActionGrid() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedGigId, setSelectedGigId] = useState(FREELANCING_GIGS[0].id);
-
-  function openGigModal(gigId = FREELANCING_GIGS[0].id) {
-    setSelectedGigId(gigId);
-    setModalOpen(true);
-  }
 
   return (
     <>
@@ -2710,10 +2889,10 @@ function FreelancingActionGrid() {
             <span className="blog-category">Freelancing</span>
             <h3>Choose a service before you message me</h3>
             <p>
-              Open the gigs modal to browse the services I provide, compare what each offer includes, and decide the best fit before reaching out.
+              Open the full gig to review the business website offer, browse the reference visuals, and compare the Basic, Standard, and Premium plans before reaching out.
             </p>
             <div className="freelancing-content-actions">
-              <button type="button" className="freelancing-cta-button freelancing-view-gigs-button" onClick={() => openGigModal()}>
+              <button type="button" className="freelancing-cta-button freelancing-view-gigs-button" onClick={() => setModalOpen(true)}>
                 view gigs
               </button>
             </div>
@@ -2723,9 +2902,9 @@ function FreelancingActionGrid() {
           <div className="blog-content">
             <span className="blog-category">Hire Me</span>
             <h3>Choose the way you want to start</h3>
-            <p>Use the direct site option to open your service list in a modal, then continue to contact once you know which gig fits your project.</p>
+            <p>Use the direct site option to open the full gig, inspect the plans, and continue only when the package matches what your business needs.</p>
             <div className="freelancing-cta-buttons">
-              <button type="button" className="freelancing-cta-button" onClick={() => openGigModal()}>
+              <button type="button" className="freelancing-cta-button" onClick={() => setModalOpen(true)}>
                 hire me here
               </button>
               <a
@@ -2740,13 +2919,7 @@ function FreelancingActionGrid() {
           </div>
         </div>
       </section>
-      <FreelancingGigModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        gigs={FREELANCING_GIGS}
-        selectedGigId={selectedGigId}
-        onSelectGig={setSelectedGigId}
-      />
+      <FreelancingGigModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }
