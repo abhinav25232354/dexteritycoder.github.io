@@ -4032,6 +4032,12 @@ form p {
 
     .freelancing-grid {
         grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .freelancing-grid .blog-card {
+        width: min(100%, 560px);
+        transform: translateX(-3px);
     }
 
     .freelancing-cta-buttons {
