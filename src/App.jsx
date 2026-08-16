@@ -41,6 +41,7 @@ import {
   reviewContentRequest,
   submitContentRequest,
 } from "./lib/contentApi";
+import { submitContactRequest } from "./lib/contactApi";
 import {
   clearPendingRequestedRole,
   getAuthRedirectUrl,
@@ -3320,8 +3321,100 @@ function AboutPage({ siteData, engagement, auth, content }) {
 }
 
 function ContactPage({ siteData, engagement, auth }) {
-  usePageSetup(siteData.contact.documentTitle);
+  const [form, setForm] = useState({
+    name: auth.profile?.displayName || "",
+    email: auth.user?.email || "",
+    contactMode: "normal",
+    contactNumber: "",
+    inquiryType: "gig",
+    selectedGig: "",
+    lookingFor: "",
+    paymentTiming: "pay-later",
+    message: "",
+  });
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [gigPickerOpen, setGigPickerOpen] = useState(false);
+
+  const pageTitle =
+    form.contactMode === "enquiry"
+      ? "Project Enquiry | Dexteritycoder"
+      : siteData.contact.documentTitle;
+  usePageSetup(pageTitle);
   useSitePageTracker(engagement, "contact");
+
+  useEffect(() => {
+    setForm((current) => ({
+      ...current,
+      name: auth.profile?.displayName || current.name,
+      email: auth.user?.email || current.email,
+    }));
+  }, [auth.profile?.displayName, auth.user?.email]);
+
+  function updateField(name, value) {
+    setForm((current) => ({
+      ...current,
+      [name]: value,
+      ...(name === "contactMode" && value === "normal"
+        ? {
+            contactNumber: "",
+            inquiryType: "gig",
+            selectedGig: "",
+            lookingFor: "",
+            paymentTiming: "pay-later",
+          }
+        : {}),
+      ...(name === "inquiryType" && value !== "gig" ? { selectedGig: "" } : {}),
+    }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    setNotice("");
+
+    try {
+      const response = await submitContactRequest({
+        name: form.name,
+        email: form.email,
+        contactMode: form.contactMode,
+        contactNumber: form.contactNumber,
+        inquiryType: form.contactMode === "enquiry" ? form.inquiryType : "",
+        selectedGig:
+          form.contactMode === "enquiry" && form.inquiryType === "gig"
+            ? form.selectedGig
+            : "",
+        lookingFor: form.contactMode === "enquiry" ? form.lookingFor : "",
+        paymentTiming: form.contactMode === "enquiry" ? form.paymentTiming : "",
+        message: form.message,
+      });
+
+      setNotice(response?.message || "Your message has been sent.");
+      setForm({
+        name: auth.profile?.displayName || "",
+        email: auth.user?.email || "",
+        contactMode: "normal",
+        contactNumber: "",
+        inquiryType: "gig",
+        selectedGig: "",
+        lookingFor: "",
+        paymentTiming: "pay-later",
+        message: "",
+      });
+      setGigPickerOpen(false);
+    } catch (submitError) {
+      setError(submitError.message || "Could not send your message right now.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const sectionTitle =
+    form.contactMode === "enquiry" ? "Project enquiry" : "Contact";
+  const sectionEyebrow =
+    form.contactMode === "enquiry" ? "Enquiry" : "Contact";
 
   return (
     <Shell siteData={siteData} auth={auth}>
@@ -3329,26 +3422,181 @@ function ContactPage({ siteData, engagement, auth }) {
         titleHtml={siteData.contact.heroTitleHtml}
         titleStyle={{ fontSize: "clamp(1.45rem, 1.3vw + 1.05rem, 2.2rem)" }}
       />
-      <div className="contact-form-container">
-        <form className="contact-form">
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+      <section className="contact-page-shell">
+        <div className="contact-form-container contact-form-main-card">
+          <div className="contact-form-intro">
+            <span className="blog-category">{sectionEyebrow}</span>
+            <h2>{sectionTitle}</h2>
+          </div>
+          <form className="contact-form-dense" onSubmit={handleSubmit}>
+            <div className="contact-mode-toggle" role="tablist" aria-label="Contact form mode">
+              <button
+                type="button"
+                className={`contact-mode-button${form.contactMode === "normal" ? " is-active" : ""}`}
+                onClick={() => updateField("contactMode", "normal")}
+                aria-pressed={form.contactMode === "normal"}
+              >
+                Normal
+              </button>
+              <button
+                type="button"
+                className={`contact-mode-button${form.contactMode === "enquiry" ? " is-active" : ""}`}
+                onClick={() => updateField("contactMode", "enquiry")}
+                aria-pressed={form.contactMode === "enquiry"}
+              >
+                Enquiry
+              </button>
             </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="contact-name">Name</label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  value={form.name}
+                  onChange={(event) => updateField("name", event.target.value)}
+                  placeholder="Your full name"
+                  maxLength={120}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="contact-email">Email</label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  value={form.email}
+                  onChange={(event) => updateField("email", event.target.value)}
+                  placeholder="you@example.com"
+                  maxLength={160}
+                  required
+                />
+              </div>
+            </div>
+            {form.contactMode === "enquiry" ? (
+              <>
+                <div className="form-group">
+                  <label htmlFor="contact-number">Contact (optional)</label>
+                  <input
+                    type="text"
+                    id="contact-number"
+                    value={form.contactNumber}
+                    onChange={(event) => updateField("contactNumber", event.target.value)}
+                    placeholder="Phone / WhatsApp / Telegram"
+                    maxLength={60}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Gig or order type</label>
+                  <div className="contact-gig-picker-row">
+                    <button
+                      type="button"
+                      className="contact-gig-picker-button"
+                      onClick={() => setGigPickerOpen(true)}
+                    >
+                      {form.inquiryType === "gig" ? form.selectedGig || "Select service" : "Customized order selected"}
+                    </button>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="contact-looking-for">What are you looking for?</label>
+                  <input
+                    type="text"
+                    id="contact-looking-for"
+                    value={form.lookingFor}
+                    onChange={(event) => updateField("lookingFor", event.target.value)}
+                    placeholder="Landing page, business site, e-commerce, redesign, etc."
+                    maxLength={500}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Payment timing</label>
+                  <div className="contact-payment-toggle">
+                    <button
+                      type="button"
+                      className={`contact-payment-button${form.paymentTiming === "pay-now" ? " is-active" : ""}`}
+                      onClick={() => updateField("paymentTiming", "pay-now")}
+                    >
+                      Pay now
+                    </button>
+                    <button
+                      type="button"
+                      className={`contact-payment-button${form.paymentTiming === "pay-later" ? " is-active" : ""}`}
+                      onClick={() => updateField("paymentTiming", "pay-later")}
+                    >
+                      Pay later
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : null}
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email address" required />
+              <label htmlFor="contact-message">{form.contactMode === "enquiry" ? "Brief description about the order" : "Message"}</label>
+              <textarea
+                id="contact-message"
+                value={form.message}
+                onChange={(event) => updateField("message", event.target.value)}
+                rows="6"
+                placeholder={form.contactMode === "enquiry"
+                  ? "Share the business type, features, pages, design direction, and delivery expectations."
+                  : "Write your message here."}
+                maxLength={5000}
+                required
+              ></textarea>
+            </div>
+            {error ? <p className="engagement-error">{error}</p> : null}
+            {notice ? <p className="auth-success">{notice}</p> : null}
+            <button type="submit" className="submit-btn" disabled={busy}>
+              {busy ? "Sending..." : form.contactMode === "enquiry" ? "Submit Enquiry" : "Send Message"}
+            </button>
+          </form>
+        </div>
+        {gigPickerOpen ? (
+          <div className="auth-modal-backdrop contact-gig-backdrop" role="dialog" aria-modal="true" aria-label="Select gig" onClick={() => setGigPickerOpen(false)}>
+            <div className="auth-modal-card contact-gig-modal" onClick={(event) => event.stopPropagation()}>
+              <div className="freelancing-modal-header">
+                <div>
+                  <p className="freelancing-modal-eyebrow">Select Gig</p>
+                  <h2>Choose the enquiry path</h2>
+                  <p className="freelancing-modal-copy">Pick the available gig or switch the enquiry to a customized order.</p>
+                </div>
+                <button type="button" className="gallery-modal-close freelancing-modal-close" onClick={() => setGigPickerOpen(false)} aria-label="Close gig selector">
+                  {"\u00D7"}
+                </button>
+              </div>
+              <div className="contact-gig-modal-grid">
+                <button
+                  type="button"
+                  className={`contact-gig-option${form.inquiryType === "gig" ? " is-active" : ""}`}
+                  onClick={() => {
+                    updateField("inquiryType", "gig");
+                    updateField("selectedGig", FREELANCING_GIG.title);
+                    setGigPickerOpen(false);
+                  }}
+                >
+                  <span className="blog-category">Available Gig</span>
+                  <strong>{FREELANCING_GIG.title}</strong>
+                  <p>Use the polished website gig already configured on the freelancing page.</p>
+                </button>
+                <button
+                  type="button"
+                  className={`contact-gig-option${form.inquiryType === "customized" ? " is-active" : ""}`}
+                  onClick={() => {
+                    updateField("inquiryType", "customized");
+                    updateField("selectedGig", "");
+                    setGigPickerOpen(false);
+                  }}
+                >
+                  <span className="blog-category">Customized Order</span>
+                  <strong>Custom scope request</strong>
+                  <p>Skip the standard gig and describe a tailored order built around your exact business needs.</p>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
-          </div>
-          <br />
-          <button type="submit" className="submit-btn">Send Message</button>
-        </form>
-      </div>
+        ) : null}
+      </section>
     </Shell>
   );
 }
